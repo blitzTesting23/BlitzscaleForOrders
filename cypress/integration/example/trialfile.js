@@ -1,6 +1,5 @@
-import Nudges from "../PageObjects/Nudges"
+import NudgesAndColumns from "../PageObjects/NudgesAndColumns"
 import Filters from "../PageObjects/Filters"
-import ApproveRequests from "../PageObjects/ApproveReturnRequests"
 import SidebarAndMisc from "../PageObjects/SidebarAndMisc"
 
 describe('New Requests filter check', function () {
@@ -11,9 +10,8 @@ describe('New Requests filter check', function () {
     })
 
     it('ReturnRequests_05_01',function(){
-        const Nudge=new Nudges();
+        const Nudge=new NudgesAndColumns();
         const filters=new Filters();
-        const approve=new ApproveRequests();
         const misc=new SidebarAndMisc();
         misc.url()
         cy.get('.rs-input').type(this.data.PhoneNo)
@@ -54,6 +52,7 @@ describe('New Requests filter check', function () {
                     }
                 })
                 filters.getInputBoxForSearchFilter().type('R_NS07K1697457719148')
+                cy.wait(1000)
                 filters.getSearchSVG().click()
                 cy.wait(1000)
                 cy.get('div[class="Table_table-wrapper__SnI4U "] div div:nth-child(1) div:nth-child(5) p').should('contain','R_NS07K1697457719148')

@@ -59,7 +59,7 @@ phoneNumberAddressfieldForNR(){
 }
 
 moredetailsctaButton(){
-    return cy.get('div[class="Table_card-cell__MSHm0 Table_padding-horizontal-md__mL+44 rs-flex-box-grid-item rs-flex-box-grid-item-0 rs-col rs-col-xl-4 rs-col-lg-5 rs-col-md-5 rs-col-sm-7"] button')
+    return cy.get('div[class="Table_sticky-table-header__8xY33"] div:nth-child(3) button')
 }
 contentsFromSideBarFromMoreDetails(){
     return cy.get('.rs-drawer-content p')
@@ -87,6 +87,66 @@ rejectOrAcceptCTA(){
 }
 resetAllFilters(){
     return cy.get('.Flexbox_flex-column__cNkZ2 > .Button_button-primary__9i0Rz')
+}
+
+returnShippingColumn(){
+    return cy.get('div[class="Table_sticky-table-header__8xY33"] div:nth-child(5)')
+}
+awbNumberfield(){
+    return cy.get('p[class="Text_body2__0FftJ Text_subtitles-colored__s5ggG Text_underline__aG3Cq Text_mt-xs__jNeDZ Text_cursor-pointer__vwE5X"]')
+}
+customerInfoitems(){
+    return cy.get('div[class="OngoingTable_customer-info-wrapper__saU4g"] p')
+}
+
+returnStatusFilter(){
+    return cy.get('.rs-picker-toggle-placeholder p')
+}
+
+shippingStatus(){
+    return cy.get('div[class="Table_sticky-table-header__8xY33"] div:nth-child(5) span[class="Label_label-type-primary__zRewS Label_label-state-primary__dL5r6 ShippingDetailsLabel_label-style__XRwqi"]')
+}
+moreFiltersOption(){
+    return cy.get('button[data-sd-event="moreFilter"]')
+}
+requestedOnfieldDetails(){
+    return cy.get('p[class="Text_body2__0FftJ Text_subtitles-colored__s5ggG Text_ml-md__DqNfo Text_break-word__oIh4U"]').parent()
+}
+
+settlementMethodDetails(){
+    return cy.get('div[class="Table_card-cell__MSHm0 Table_padding-horizontal-md__mL+44 rs-flex-box-grid-item rs-flex-box-grid-item-0 rs-col rs-col-xl-3 rs-col-lg-4 rs-col-md-6 rs-col-sm-6"]  p[class="Text_body2__0FftJ Text_subtitles-colored__s5ggG"]')
+}
+
+autoSettlementDetails(){
+    return cy.get('div[class="Table_card-cell__MSHm0 Table_padding-horizontal-md__mL+44 rs-flex-box-grid-item rs-flex-box-grid-item-0 rs-col rs-col-xl-3 rs-col-lg-3 rs-col-md-6 rs-col-sm-6"] p')
+}
+
+autoSettleementDropdownoptions(){
+    return cy.get('div[class="RadioPicker_checkpicker-radiogroup__+Wree rs-radio-group rs-radio-group-default"]')
+}
+
+settlementMethodForPickupFailed(){
+    return cy.get('div[class="Table_sticky-table-header__8xY33"] div:nth-child(4) p')
+}
+spanforMoredetails(){
+    return cy.get('.rs-drawer-content span')
+}
+shippingstatusForSettlementPending(){
+    return cy.get('div[class="Flexbox_flex-row__aKbHb Flexbox_align-stretch__jf368 Flexbox_nowrap__8vOkG rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"] div:nth-child(5)  span')
+}
+settlementMethodForSettlementTab(){
+    return cy.get('div[class="Flexbox_flex-row__aKbHb Flexbox_align-stretch__jf368 Flexbox_nowrap__8vOkG rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"] div:nth-child(6)  p')
+}
+settlementStatusForSettlementTab(){
+    return cy.get('div[class="Flexbox_flex-row__aKbHb Flexbox_align-stretch__jf368 Flexbox_nowrap__8vOkG rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"] div:nth-child(6)  span')
+}
+
+awbFieldForClosedRequest(){
+    return cy.get('p[class="Text_body2__0FftJ Text_subtitles-colored__s5ggG Text_underline__aG3Cq Text_cursor-pointer__vwE5X"]')
+}
+
+moreDetailsButtonForClosedTab(){
+    return cy.get('.rs-col-xl-4 > .button-link')
 }
 }
 export default Filters;
