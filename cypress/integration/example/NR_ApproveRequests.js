@@ -9,7 +9,7 @@ describe('New Requests filter check', function () {
             this.data = data
         })
     })
-
+//Verify 'View More'&'View less' button is clickable and responsive from the fields ,like "Book return shipment","QC","Auto Settlement"& by clicking on "View QC checklist"opens qc checklist in the new requests tab 
     it('ReturnRequests_05_01',function(){
         const Nudge=new NudgesAndColumns();
         const filters=new Filters();
@@ -68,7 +68,6 @@ describe('New Requests filter check', function () {
         })
         filters.getInputBoxForSearchFilter().type(this.data.newRequestsOrderID)
         filters.getSearchSVG().click()    
-
         filters.searchResultCard().then((cardforresults)=>{   
            cy.log("The length present",cardforresults.find('p').length)
              if(cardforresults.find('p').length>0)

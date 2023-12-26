@@ -42,5 +42,11 @@ return cy.get('div.SideNav_sidenav-container__8XqV0 nav.sidenav-bar div.SideNav_
         return cy.get('div[class="NavigateTabGroup_tabgroup-container__SOWwd"] h5 span')
     }
    
+    moreDetailsProductNameField(){
+        return cy.get('p[class="Text_body2__0FftJ Text_ml-sm__WjbvN Text_mb-sm__m812n"]')
+    }
+    moreDetailscardfields(){
+        return cy.get('p[class="Text_body2__0FftJ Text_subtitles-colored__s5ggG Text_mt-xs__jNeDZ Text_mb-xs__FA03i"]')
+    }
      }
      export default SidebarAndMisc;

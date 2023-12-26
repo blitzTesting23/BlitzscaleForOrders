@@ -3,6 +3,20 @@
   "PhoneNo":"9380879945",
   "Password" :"0000",
   "newRequestsOrderID":"NS0R81702301888986",
-  "CustomerNumber":"9591568469"
+  "OrderIdForPickupFailed":"R_NSW1695208805759",
+  "CustomerNumber":"9591568469",
+  "AWB_Number":"DUMSMDYU6UYS",
+  "AWB_NumberForPickupFailed":"DUMW3ZIU89OW",
+  "returnStatus_option":"Dispatched",
+  "requestSource_option":"Dashboard",
+  "settlementMethod_option":"REFUND",
+  "autoSettlement_option":"Yes",
+  "shippingPartner_options":"DELHIVERY SURFACE",
+  "orderIDForSettlementPending":"R_NS1G61702643318228",
+  "AWB_NumberForSettlementPending":"DUM9SVFEOHVY",
+  "returnStatusOptionForSettlementTab":"Dispatched",
+  "settlementStatusForSettlementTab":"Scheduled",
+  "orderIDForClosedRequest":"R_NS0511703248168033_4",
+  "AWBForCLosedRequestTab":"DUM8I8KYASP6"
 }
 
