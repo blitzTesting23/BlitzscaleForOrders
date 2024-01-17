@@ -2,6 +2,9 @@ class SidebarAndMisc{
     url(){
         return cy.visit('http://v2.nushop-dashboard.kaip.in/')
     }
+    website(){
+        return cy.visit('http://nitintesting.nushop.kaip.in/')
+    }
     enterPhoneNumberAndOTP(){
         return cy.get('.rs-input')
     }
@@ -48,5 +51,38 @@ return cy.get('div.SideNav_sidenav-container__8XqV0 nav.sidenav-bar div.SideNav_
     moreDetailscardfields(){
         return cy.get('p[class="Text_body2__0FftJ Text_subtitles-colored__s5ggG Text_mt-xs__jNeDZ Text_mb-xs__FA03i"]')
     }
+
+    trackOrders(){
+        return cy.get('a[href="/orders/track-orders"]')
+    }
+
+    downloadCSV(){
+        return cy.get('button[data-sd-event="download"]')
+    }
+    clickonOKButtontoDownload(){
+        return cy.get('div[class="rs-modal-content"] div button')
+    }
+
+    popupTextForDownload(){
+        return cy.get('div[class="rs-modal-content"] p')
+    }
+
+    reportsLinkFromPopup(){
+        return cy.get('div[class="rs-modal-content"] p a')
+    }
+    reportsTabInAnalytics(){
+        return cy.get(' a[href="/analytics/reports"]')
+    }
+
+    reportList(){
+        return cy.get('div[class="Flexbox_flex-row__aKbHb Flexbox_align-stretch__jf368 Flexbox_nowrap__8vOkG rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]')
+    }
+
+    placeorderFromOrders(){
+        return cy.get('a[href="/orders/place-order"]');
+    }
+
+    
+
      }
      export default SidebarAndMisc;

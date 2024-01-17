@@ -2,7 +2,7 @@
   "url":"http://v2.nushop-dashboard.kaip.in/",
   "PhoneNo":"9380879945",
   "Password" :"0000",
-  "newRequestsOrderID":"NS0R81702301888986",
+  "newRequestsOrderID":"NS03X1704365677905",
   "OrderIdForPickupFailed":"R_NSW1695208805759",
   "CustomerNumber":"9591568469",
   "AWB_Number":"DUMSMDYU6UYS",
@@ -18,6 +18,9 @@
   "settlementStatusForSettlementTab":"Scheduled",
   "orderIDForClosedRequest":"R_NS0511703248168033_4",
   "AWBForCLosedRequestTab":"DUM8I8KYASP6",
-  "for checking ":"blitz"
+  "RequestactionForClosedTab":"Approved",
+  "rejectionReasonForClosedTab":"Customer raised wrong request",
+  "approvedRequestStatusForClosedTab":"Passed",
+  "failedReasonForClosedTab":"Cancelled by Seller"
 }
 

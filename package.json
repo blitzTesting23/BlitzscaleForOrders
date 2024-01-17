@@ -5,16 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "node_modules\\.bin\\cypress run",
-    "headTest":"node_modules\\.bin\\cypress run --headed",
-    "chromeTest":"node_modules\\.bin\\cypress run --browser chrome",
-    "recordDashboardTest":"npm run test -- --record --key a9768df2-e571-4269-82c3-31b923f58603 --reporter mochawesome",
-    "one":"npx cypress run --spec cypress\\integration\\example\\NewRequestsFilters.js"
-
+    "headTest": "node_modules\\.bin\\cypress run --headed",
+    "chromeTest": "node_modules\\.bin\\cypress run --browser chrome",
+    "recordDashboardTest": "npm run test -- --record --key a9768df2-e571-4269-82c3-31b923f58603 --reporter mochawesome",
+    "one": "npx cypress run --spec cypress\\integration\\example\\NewRequestsFilters.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^13.3.2"
+    "cypress": "^13.3.2",
+    "neat-csv":"5.1.0"
+  },
+  "dependencies": {
+    "cypress-downloadfile": "^1.2.3"
   }
 }

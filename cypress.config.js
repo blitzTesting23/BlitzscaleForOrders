@@ -1,5 +1,9 @@
-const { defineConfig } = require("cypress");
+const { defineConfig } = require("cypress")
+const {downloadFile} = require('cypress-downloadfile/lib/addPlugin')
 
+module.exports = defineConfig({
+  chromeWebSecurity: false,
+})
 module.exports = defineConfig({
   projectId: 'k5ztu5',
   retries: {
@@ -7,9 +11,11 @@ module.exports = defineConfig({
     },
   env: {
           url:"http://v2.nushop-dashboard.kaip.in/",
+          website:"http://nitintesting.nushop.kaip.in/"
   },
   e2e: {
     setupNodeEvents(on, config) {
+      on('task', {downloadFile})
       // implement node event listeners here
     },
     specPattern: 'cypress/integration/example/*.js'

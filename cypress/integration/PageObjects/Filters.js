@@ -1,5 +1,7 @@
 class Filters{
 
+    firstGridCell='div[class="Table_card-cell__MSHm0 Table_padding-vertical-default__KZdfK Table_padding-horizontal-lg__hWECV rs-flex-box-grid-item rs-flex-box-grid-item-0 rs-col rs-col-xl-3 rs-col-lg-4 rs-col-md-5 rs-col-sm-7"]'
+
 getSearchFilterDropDown(){
    return cy.get('div[class="InputSearch_input-search__utz3W rs-input-group"] div[role="combobox"]') //clicks on the search 
 }
@@ -8,7 +10,7 @@ getFilterOptionsfromtheDropdown(){
 }
 
 getInputBoxForSearchFilter(){
-return cy.get('input[placeholder="Search"]') //input box for the search filter 
+return cy.get('div[class="InputSearch_input-search__utz3W rs-input-group"] input[placeholder="Search"]') //input box for the search filter 
 }
 
 getSearchSVG(){
@@ -25,6 +27,7 @@ OrderDetailsLineItem(){
 OrderIDFromtheOrderdetailsLineItem(){
     return cy.get('p[class="Text_body2__0FftJ Text_subtitles-colored__s5ggG Text_mt-xs__jNeDZ"]')  ///Order ID from the order details card 
 }
+
 
 buttonListfromtheOrderLineItem(){
     return cy.get('div[class="Flexbox_flex-row__aKbHb Flexbox_align-stretch__jf368 Flexbox_nowrap__8vOkG rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"] button') //the buttons for More Details,view all"x"files,Approve,Reject
@@ -147,6 +150,17 @@ awbFieldForClosedRequest(){
 
 moreDetailsButtonForClosedTab(){
     return cy.get('.rs-col-xl-4 > .button-link')
+}
+shippingStatusForClosedTab(){
+    return cy.get('div[class="Flexbox_flex-row__aKbHb Flexbox_align-stretch__jf368 Flexbox_nowrap__8vOkG rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]')
+}
+
+morefiltersForClosedTab(){
+return cy.get("button[data-sd-event='moreFilters']")
+}
+
+requestSourceForClosedTab(){
+    return cy.get('div[class="Table_card-cell__MSHm0 Table_padding-horizontal-md__mL+44 rs-flex-box-grid-item rs-flex-box-grid-item-0 rs-col rs-col-xl-2 rs-col-lg-3 rs-col-md-5 rs-col-sm-12"]')
 }
 }
 export default Filters;

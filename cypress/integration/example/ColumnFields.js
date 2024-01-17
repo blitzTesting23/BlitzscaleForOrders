@@ -22,9 +22,9 @@ describe('ColumnFields', function () {
 
         Nudge.getBody().then((main)=>{   
             cy.wait(2000);
-            cy.log("dialogue box ",main.find('div[role="dialog"]').length)
-              if(main.find('div[role="dialog"]').length>0){
-                cy.get('.Button_button-ghost__rieSu').click();   
+            cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+              if(main.find(Nudge.dialogue).length>0){
+                Nudge.nudgeClick().click();   
                 cy.wait(2000);
             }})
         misc.sidebarwidgets().trigger('mouseover');
@@ -41,8 +41,8 @@ describe('ColumnFields', function () {
         //to handle the nudges 
         Nudge.getBody().then((main)=>{   
             cy.wait(2000);
-            cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-              if(main.find('div[class="__floater__body"]').length>0){
+            cy.log("nitin ",main.find(Nudge.floater).length)
+              if(main.find(Nudge.floater).length>0){
                 Nudge.getNudges().click()
                 cy.wait(1000)
                 Nudge.getNudges().click()
@@ -91,9 +91,9 @@ describe('ColumnFields', function () {
 
         Nudge.getBody().then((main)=>{   
             cy.wait(2000);
-            cy.log("dialogue box ",main.find('div[role="dialog"]').length)
-              if(main.find('div[role="dialog"]').length>0){
-                cy.get('.Button_button-ghost__rieSu').click();   
+            cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+              if(main.find(Nudge.dialogue).length>0){
+                Nudge.nudgeClick().click();   
                 cy.wait(2000);
             }})
         misc.sidebarwidgets().trigger('mouseover');
@@ -110,8 +110,8 @@ describe('ColumnFields', function () {
         //to handle the nudges 
         Nudge.getBody().then((main)=>{   
             cy.wait(2000);
-            cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-              if(main.find('div[class="__floater__body"]').length>0){
+            cy.log("nitin ",main.find(Nudge.floater).length)
+              if(main.find(Nudge.floater).length>0){
                 Nudge.getNudges().click()
                 cy.wait(1000)
                 Nudge.getNudges().click()
@@ -172,9 +172,9 @@ describe('ColumnFields', function () {
 
         Nudge.getBody().then((main)=>{   
             cy.wait(2000);
-            cy.log("dialogue box ",main.find('div[role="dialog"]').length)
-              if(main.find('div[role="dialog"]').length>0){
-                cy.get('.Button_button-ghost__rieSu').click();   
+            cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+              if(main.find(Nudge.dialogue).length>0){
+                Nudge.nudgeClick().click();   
                 cy.wait(2000);
             }})
         misc.sidebarwidgets().trigger('mouseover');
@@ -191,8 +191,8 @@ describe('ColumnFields', function () {
         //to handle the nudges 
         Nudge.getBody().then((main)=>{   
             cy.wait(2000);
-            cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-              if(main.find('div[class="__floater__body"]').length>0){
+            cy.log("nitin ",main.find(Nudge.floater).length)
+              if(main.find(Nudge.floater).length>0){
                 Nudge.getNudges().click()
                 cy.wait(1000)
                 Nudge.getNudges().click()
@@ -252,9 +252,9 @@ describe('ColumnFields', function () {
 
         Nudge.getBody().then((main)=>{   
             cy.wait(2000);
-            cy.log("dialogue box ",main.find('div[role="dialog"]').length)
-              if(main.find('div[role="dialog"]').length>0){
-                cy.get('.Button_button-ghost__rieSu').click();   
+            cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+              if(main.find(Nudge.dialogue).length>0){
+                Nudge.nudgeClick().click();   
                 cy.wait(2000);
             }})
         misc.sidebarwidgets().trigger('mouseover');
@@ -271,8 +271,8 @@ describe('ColumnFields', function () {
         //to handle the nudges 
         Nudge.getBody().then((main)=>{   
             cy.wait(2000);
-            cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-              if(main.find('div[class="__floater__body"]').length>0){
+            cy.log("nitin ",main.find(Nudge.floater).length)
+              if(main.find(Nudge.floater).length>0){
                 Nudge.getNudges().click()
                 cy.wait(1000)
                 Nudge.getNudges().click()
@@ -332,9 +332,9 @@ describe('ColumnFields', function () {
 
         Nudge.getBody().then((main)=>{   
             cy.wait(2000);
-            cy.log("dialogue box ",main.find('div[role="dialog"]').length)
-              if(main.find('div[role="dialog"]').length>0){
-                cy.get('.Button_button-ghost__rieSu').click();   
+            cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+              if(main.find(Nudge.dialogue).length>0){
+                Nudge.nudgeClick().click();   
                 cy.wait(2000);
             }})
         misc.sidebarwidgets().trigger('mouseover');
@@ -351,8 +351,8 @@ describe('ColumnFields', function () {
         //to handle the nudges 
         Nudge.getBody().then((main)=>{   
             cy.wait(2000);
-            cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-              if(main.find('div[class="__floater__body"]').length>0){
+            cy.log("nitin ",main.find(Nudge.floater).length)
+              if(main.find(Nudge.floater).length>0){
                 Nudge.getNudges().click()
                 cy.wait(1000)
                 Nudge.getNudges().click()

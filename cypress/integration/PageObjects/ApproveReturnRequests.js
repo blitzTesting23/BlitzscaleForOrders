@@ -67,6 +67,10 @@ areaCheckedTrue(){
     return cy.get('[aria-checked="true"]')
 }
 
+areaCheckedFalse(){
+    return cy.get('[aria-checked="false"]')
+}
+
 returnOrderRefundOrderID(){
     return cy.get('div[class="Table_table-wrapper__SnI4U "] div div:nth-child(1) div:nth-child(5) p')
 }
@@ -94,6 +98,10 @@ triggerForOrderRefund(){
 }
 triggerForShippingCharge(){
     return cy.get('div[class="Table_table-wrapper__SnI4U "] div div:nth-child(2) div:nth-child(7) p')
+}
+
+inputForQC(){
+    return cy.get('input[class="rs-input rs-input-md"]')
 }
 }
 export default ApproveRequests;

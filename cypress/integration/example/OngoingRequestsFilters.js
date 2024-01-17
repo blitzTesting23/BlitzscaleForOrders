@@ -22,9 +22,9 @@ it('ReturnRequests_06_01', function () {
     cy.wait(2000)
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("dialogue box ",main.find('div[role="dialog"]').length)
-          if(main.find('div[role="dialog"]').length>0){
-            cy.get('.Button_button-ghost__rieSu').click();   
+        cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+          if(main.find(Nudge.dialogue).length>0){
+            Nudge.nudgeClick().click();   
             cy.wait(2000);
         }})
     misc.sidebarwidgets().trigger('mouseover');
@@ -41,8 +41,8 @@ it('ReturnRequests_06_01', function () {
     //to handle the nudges 
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-          if(main.find('div[class="__floater__body"]').length>0){
+        cy.log("nitin ",main.find(Nudge.floater).length)
+          if(main.find(Nudge.floater).length>0){
             Nudge.getNudges().click()
             cy.wait(1000)
             Nudge.getNudges().click()
@@ -135,9 +135,9 @@ it('ReturnRequests_06_02', function () {
     cy.wait(2000)
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("dialogue box ",main.find('div[role="dialog"]').length)
-          if(main.find('div[role="dialog"]').length>0){
-            cy.get('.Button_button-ghost__rieSu').click();   
+        cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+          if(main.find(Nudge.dialogue).length>0){
+            Nudge.nudgeClick().click();   
             cy.wait(2000);
         }})
     misc.sidebarwidgets().trigger('mouseover');
@@ -154,8 +154,8 @@ it('ReturnRequests_06_02', function () {
     //to handle the nudges 
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-          if(main.find('div[class="__floater__body"]').length>0){
+        cy.log("nitin ",main.find(Nudge.floater).length)
+          if(main.find(Nudge.floater).length>0){
             Nudge.getNudges().click()
             cy.wait(1000)
             Nudge.getNudges().click()
@@ -250,9 +250,9 @@ it('ReturnRequests_06_03', function () {
     cy.wait(2000)
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("dialogue box ",main.find('div[role="dialog"]').length)
-          if(main.find('div[role="dialog"]').length>0){
-            cy.get('.Button_button-ghost__rieSu').click();   
+        cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+          if(main.find(Nudge.dialogue).length>0){
+            Nudge.nudgeClick().click();   
             cy.wait(2000);
         }})
     misc.sidebarwidgets().trigger('mouseover');
@@ -269,8 +269,8 @@ it('ReturnRequests_06_03', function () {
     //to handle the nudges 
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-          if(main.find('div[class="__floater__body"]').length>0){
+        cy.log("nitin ",main.find(Nudge.floater).length)
+          if(main.find(Nudge.floater).length>0){
             Nudge.getNudges().click()
             cy.wait(1000)
             Nudge.getNudges().click()
@@ -368,9 +368,9 @@ it('ReturnRequests_06_04', function () {
     cy.wait(2000)
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("dialogue box ",main.find('div[role="dialog"]').length)
-          if(main.find('div[role="dialog"]').length>0){
-            cy.get('.Button_button-ghost__rieSu').click();   
+        cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+          if(main.find(Nudge.dialogue).length>0){
+            Nudge.nudgeClick().click();   
             cy.wait(2000);
         }})
     misc.sidebarwidgets().trigger('mouseover');
@@ -387,8 +387,8 @@ it('ReturnRequests_06_04', function () {
     //to handle the nudges 
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-          if(main.find('div[class="__floater__body"]').length>0){
+        cy.log("nitin ",main.find(Nudge.floater).length)
+          if(main.find(Nudge.floater).length>0){
             Nudge.getNudges().click()
             cy.wait(1000)
             Nudge.getNudges().click()
@@ -506,9 +506,9 @@ it('ReturnRequests_06_05', function () {
     cy.wait(2000)
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("dialogue box ",main.find('div[role="dialog"]').length)
-          if(main.find('div[role="dialog"]').length>0){
-            cy.get('.Button_button-ghost__rieSu').click();   
+        cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+          if(main.find(Nudge.dialogue).length>0){
+            Nudge.nudgeClick().click();   
             cy.wait(2000);
         }})
     misc.sidebarwidgets().trigger('mouseover');
@@ -525,8 +525,8 @@ it('ReturnRequests_06_05', function () {
     //to handle the nudges 
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-          if(main.find('div[class="__floater__body"]').length>0){
+        cy.log("nitin ",main.find(Nudge.floater).length)
+          if(main.find(Nudge.floater).length>0){
             Nudge.getNudges().click()
             cy.wait(1000)
             Nudge.getNudges().click()
@@ -564,7 +564,7 @@ it('ReturnRequests_06_05', function () {
         const returnStatus = $el.find('label').text()
         if(returnStatus.includes(this.data.returnStatus_option)){
             cy.log(returnStatus)
-            $el.find('span[class="rs-checkbox-wrapper"]').click()
+            $el.find(Nudge.optionSelect).click()
         }
 
     })
@@ -633,9 +633,9 @@ it('ReturnRequests_06_06', function () {
     cy.wait(2000)
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("dialogue box ",main.find('div[role="dialog"]').length)
-          if(main.find('div[role="dialog"]').length>0){
-            cy.get('.Button_button-ghost__rieSu').click();   
+        cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+          if(main.find(Nudge.dialogue).length>0){
+            Nudge.nudgeClick().click();   
             cy.wait(2000);
         }})
     misc.sidebarwidgets().trigger('mouseover');
@@ -652,8 +652,8 @@ it('ReturnRequests_06_06', function () {
     //to handle the nudges 
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-          if(main.find('div[class="__floater__body"]').length>0){
+        cy.log("nitin ",main.find(Nudge.floater).length)
+          if(main.find(Nudge.floater).length>0){
             Nudge.getNudges().click()
             cy.wait(1000)
             Nudge.getNudges().click()
@@ -690,7 +690,7 @@ it('ReturnRequests_06_06', function () {
         const returnStatus = $el.find('label').text()
         if(returnStatus.includes(this.data.returnStatus_option)){
             cy.log(returnStatus)
-            $el.find('span[class="rs-checkbox-wrapper"]').click()
+            $el.find(Nudge.optionSelect).click()
         }
 
     })
@@ -745,9 +745,9 @@ it('ReturnRequests_06_07', function () {
     cy.wait(2000)
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("dialogue box ",main.find('div[role="dialog"]').length)
-          if(main.find('div[role="dialog"]').length>0){
-            cy.get('.Button_button-ghost__rieSu').click();   
+        cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+          if(main.find(Nudge.dialogue).length>0){
+            Nudge.nudgeClick().click();   
             cy.wait(2000);
         }})
     misc.sidebarwidgets().trigger('mouseover');
@@ -764,8 +764,8 @@ it('ReturnRequests_06_07', function () {
     //to handle the nudges 
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-          if(main.find('div[class="__floater__body"]').length>0){
+        cy.log("nitin ",main.find(Nudge.floater).length)
+          if(main.find(Nudge.floater).length>0){
             Nudge.getNudges().click()
             cy.wait(1000)
             Nudge.getNudges().click()
@@ -805,7 +805,7 @@ it('ReturnRequests_06_07', function () {
         const returnSource = $el.find('label').text()
         if(returnSource.includes(this.data.requestSource_option)){
             cy.log(returnSource)
-            $el.find('span[class="rs-checkbox-wrapper"]').click()
+            $el.find(Nudge.optionSelect).click()
         }
     })
     filters.clickonPlaceHolder().click()
@@ -872,9 +872,9 @@ it('ReturnRequests_06_08', function () {
     cy.wait(2000)
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("dialogue box ",main.find('div[role="dialog"]').length)
-          if(main.find('div[role="dialog"]').length>0){
-            cy.get('.Button_button-ghost__rieSu').click();   
+        cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+          if(main.find(Nudge.dialogue).length>0){
+           Nudge.nudgeClick().click();   
             cy.wait(2000);
         }})
     misc.sidebarwidgets().trigger('mouseover');
@@ -891,8 +891,8 @@ it('ReturnRequests_06_08', function () {
     //to handle the nudges 
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-          if(main.find('div[class="__floater__body"]').length>0){
+        cy.log("nitin ",main.find(Nudge.floater).length)
+          if(main.find(Nudge.floater).length>0){
             Nudge.getNudges().click()
             cy.wait(1000)
             Nudge.getNudges().click()
@@ -932,7 +932,7 @@ it('ReturnRequests_06_08', function () {
         const settlementOption = $el.find('label').text()
         if(settlementOption.includes(this.data.settlementMethod_option)){
             cy.log(settlementOption)
-            $el.find('span[class="rs-checkbox-wrapper"]').click()
+            $el.find(Nudge.optionSelect).click()
         }
     })
     filters.clickonPlaceHolder().click()
@@ -999,9 +999,9 @@ it('ReturnRequests_06_09', function () {
     cy.wait(2000)
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("dialogue box ",main.find('div[role="dialog"]').length)
-          if(main.find('div[role="dialog"]').length>0){
-            cy.get('.Button_button-ghost__rieSu').click();   
+        cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+          if(main.find(Nudge.dialogue).length>0){
+            Nudge.nudgeClick().click();   
             cy.wait(2000);
         }})
     misc.sidebarwidgets().trigger('mouseover');
@@ -1018,8 +1018,8 @@ it('ReturnRequests_06_09', function () {
     //to handle the nudges 
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-          if(main.find('div[class="__floater__body"]').length>0){
+        cy.log("nitin ",main.find(Nudge.floater).length)
+          if(main.find(Nudge.floater).length>0){
             Nudge.getNudges().click()
             cy.wait(1000)
             Nudge.getNudges().click()
@@ -1059,7 +1059,7 @@ it('ReturnRequests_06_09', function () {
         const autoSettlement = $el.find('label').text()
         if(autoSettlement.includes(this.data.autoSettlement_option)){
             cy.log(autoSettlement)
-            $el.find('label[class="RadioPicker_radio-label__p6kzr"]').click()
+            $el.find(Nudge.radioOption).click()
         }
     })
     filters.clickonPlaceHolder().click()
@@ -1126,9 +1126,9 @@ it('ReturnRequests_06_10', function () {
     cy.wait(2000)
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("dialogue box ",main.find('div[role="dialog"]').length)
-          if(main.find('div[role="dialog"]').length>0){
-            cy.get('.Button_button-ghost__rieSu').click();   
+        cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+          if(main.find(Nudge.dialogue).length>0){
+            Nudge.nudgeClick().click();   
             cy.wait(2000);
         }})
     misc.sidebarwidgets().trigger('mouseover');
@@ -1145,8 +1145,8 @@ it('ReturnRequests_06_10', function () {
     //to handle the nudges 
     Nudge.getBody().then((main)=>{   
         cy.wait(2000);
-        cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-          if(main.find('div[class="__floater__body"]').length>0){
+        cy.log("nitin ",main.find(Nudge.floater).length)
+          if(main.find(Nudge.floater).length>0){
             Nudge.getNudges().click()
             cy.wait(1000)
             Nudge.getNudges().click()
@@ -1186,7 +1186,7 @@ it('ReturnRequests_06_10', function () {
         const shippingPartner = $el.find('label').text()
         if(shippingPartner.includes(this.data.shippingPartner_options)){
             cy.log(shippingPartner)
-            $el.find('span[class="rs-checkbox-wrapper"]').click()
+            $el.find(Nudge.optionSelect).click()
         }
     })
     filters.clickonPlaceHolder().click()

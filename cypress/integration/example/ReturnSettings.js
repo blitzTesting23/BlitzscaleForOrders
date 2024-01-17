@@ -328,7 +328,6 @@ describe('ReturnSettings', function () {
         cy.wait(3000)
     })
 
-
    it('ReturnRequests_01_09', function () {
     const misc=new SidebarAndMisc();
     const settings=new Settings();

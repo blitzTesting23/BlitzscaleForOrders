@@ -1,4 +1,8 @@
-
+import NudgesAndColumns from "../PageObjects/NudgesAndColumns"
+import SidebarAndMisc from "../PageObjects/SidebarAndMisc"
+import Filters from "../PageObjects/Filters"
+import cypress from "cypress"
+ const neatCSV = require('neat-csv')
 describe('My First test suite ',function(){
     before(function()
     {
@@ -8,382 +12,442 @@ describe('My First test suite ',function(){
     })
     })
     //Verify we are able to download the CSV from New Requests tab and compare the values from CSV with the values present on dashboard
-    it.only('ReturnRequests_02_01',function(){
-
+    it('ReturnRequests_02_01',function(){
+        const Nudge=new NudgesAndColumns();
+        const misc=new SidebarAndMisc();
         cy.visit(Cypress.env('url'))
-        cy.get('.rs-input').type(this.data.PhoneNo);
-        cy.get('.Button_button-primary__9i0Rz').click();
+        misc.enterPhoneNumberAndOTP().type(this.data.PhoneNo)
+        misc.submit().click()
         cy.wait(2000);
-        cy.get('.rs-input').type(this.data.Password);
-        cy.get('.Button_button-primary__9i0Rz').click();
-        cy.wait(2000);
-        cy.get('.SideNav_sidenav-item-container__PAVyt > :nth-child(1)').trigger('mouseover');
+        misc.enterPhoneNumberAndOTP().type(this.data.Password);
+        misc.submit().click();
+        cy.wait(2000)
+        Nudge.getBody().then((main)=>{   
+            cy.wait(2000);
+            cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+              if(main.find(Nudge.dialogue).length>0){
+               Nudge.nudgeClick().click();   
+                cy.wait(2000);
+            }})
+        misc.sidebarwidgets().trigger('mouseover');
         cy.wait(1000)
-        cy.get('div[class="SideNav_sidenav-item-container__PAVyt"] div[class="Flexbox_flex-row__aKbHb SideNav_menuitem-holder__QMiAA rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]').each(($el, index, $list) => {
+       misc.sidebarMenuItems().each(($el, index, $list) => {
             const settings = $el.find('p').text();
-
+    
             if (settings.includes('Orders')) {
                 $el.find('p').click();
             }
         })
-        cy.get('div.SideNav_sidenav-container__8XqV0 nav.sidenav-bar div.SideNav_sidenav-item-container__PAVyt div.SideNav_submenuitem-holder__dRus9:nth-child(5) a:nth-child(3) > div.Text_body2__0FftJ.Text_subtitles-colored__s5ggG').click();
+        misc.returnRequests().click();
+    cy.wait(1000)
+
+        //to handle the nudges 
+    Nudge.getBody().then((main)=>{   
+        cy.wait(2000);
+        cy.log("nitin ",main.find(Nudge.floater).length)
+          if(main.find(Nudge.floater).length>0){
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+        }})
+
+        Nudge.getinfobutton().click();
+        cy.wait(1000)
+        Nudge.getinfobutton().click();
         cy.wait(1000)
 
-         //to handle the nudges 
-         cy.get('body').then((main)=>{   
-            cy.wait(2000);
-            cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-              if(main.find('div[class="__floater__body"]').length>0){
-                cy.get('#next').click()
-                cy.wait(1000)
-                cy.get('#next').click()
-                cy.wait(1000)
-                cy.get('#next').click()
-                cy.wait(1000)
-                cy.get('#next').click()
-                cy.wait(1000)
-            }})
-
-            cy.get('.Info_cursor-pointer__-pHVs').click();
+           misc.downloadCSV().click()
             cy.wait(1000)
-            cy.get('.Info_cursor-pointer__-pHVs').click();
+            misc.popupTextForDownload().should('contain', 'Your file is being processed')
+            misc.reportsLinkFromPopup().should('exist')
             cy.wait(1000)
-
-            cy.get('button[data-sd-event="download"]').click();
+            misc.clickonOKButtontoDownload().click()
             cy.wait(1000)
-            cy.get('div[class="rs-modal-content"] p').should('contain', 'Your file is being processed')
-            cy.get('div[class="rs-modal-content"] p a').should('exist')
-            cy.wait(1000)
-            cy.get('div[class="rs-modal-content"] div button').click()
-            cy.wait(1000)
-            cy.get('.SideNav_sidenav-item-container__PAVyt > :nth-child(1)').trigger('mouseover');
+            misc.sidebarwidgets().trigger('mouseover');
         cy.wait(1000)
-        cy.get('div[class="SideNav_sidenav-item-container__PAVyt"] div[class="Flexbox_flex-row__aKbHb SideNav_menuitem-holder__QMiAA rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]').each(($el, index, $list) => {
+       misc.sidebarMenuItems().each(($el, index, $list) => {
             const settings = $el.find('p').text();
 
             if (settings.includes('Analytics')) {
                 $el.find('p').click();
             }
         })
-        cy.get(' a[href="/analytics/reports"]').click();
+        misc.reportsTabInAnalytics().click();
         cy.wait(1000)
-        cy.get('div[class="Flexbox_flex-row__aKbHb Flexbox_align-stretch__jf368 Flexbox_nowrap__8vOkG rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]').eq(0).each(($el)=>{
+        misc.reportList().eq(0).each(($el)=>{
            const returnDownloadcsv=$el.find('p').text()   
            cy.log(returnDownloadcsv)   
           if(returnDownloadcsv.includes('Requests')){
             cy.wait(1000)
-            $el.find('button[data-sd-event="downloadReport"]').click()
+            $el.find(Nudge.downloadReport).click()
             cy.wait(1000)
           }
         })
+        
+        cy.readFile(Cypress.config("fileServerFolder")+"\cypress\downloads\ReturnRequests1704268041878.csv")
+        .then(async (text)=>
+        {
+            const csv= await neatCSV(text)
+            cy.log(csv)
+            const ordertem=csv[0]["Order ID"]
+            //use assertions 
+        })
+      
+
+
     })
+
+    //Verify we are able to download the CSV from Ongoing Requests tab and compare the values from CSV with the values present on dashboard
     it('ReturnRequests_02_03',function(){
-
+        const Nudge=new NudgesAndColumns();
+        const filters=new Filters();
+        const misc=new SidebarAndMisc();
         cy.visit(Cypress.env('url'))
-        cy.get('.rs-input').type(9380879945);
-        cy.get('.Button_button-primary__9i0Rz').click();
+        misc.enterPhoneNumberAndOTP().type(this.data.PhoneNo)
+        misc.submit().click()
         cy.wait(2000);
-        cy.get('.rs-input').type("0000");
-        cy.get('.Button_button-primary__9i0Rz').click();
-        cy.wait(2000);
-        cy.get('.SideNav_sidenav-item-container__PAVyt > :nth-child(1)').trigger('mouseover');
+        misc.enterPhoneNumberAndOTP().type(this.data.Password);
+        misc.submit().click();
+        cy.wait(2000)
+        Nudge.getBody().then((main)=>{   
+            cy.wait(2000);
+            cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+              if(main.find(Nudge.dialogue).length>0){
+                Nudge.nudgeClick().click();   
+                cy.wait(2000);
+            }})
+        misc.sidebarwidgets().trigger('mouseover');
         cy.wait(1000)
-        cy.get('div[class="SideNav_sidenav-item-container__PAVyt"] div[class="Flexbox_flex-row__aKbHb SideNav_menuitem-holder__QMiAA rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]').each(($el, index, $list) => {
+       misc.sidebarMenuItems().each(($el, index, $list) => {
             const settings = $el.find('p').text();
-
+    
             if (settings.includes('Orders')) {
                 $el.find('p').click();
             }
         })
-        cy.get('div.SideNav_sidenav-container__8XqV0 nav.sidenav-bar div.SideNav_sidenav-item-container__PAVyt div.SideNav_submenuitem-holder__dRus9:nth-child(5) a:nth-child(3) > div.Text_body2__0FftJ.Text_subtitles-colored__s5ggG').click();
+        misc.returnRequests().click();
+    cy.wait(1000)
+
+        //to handle the nudges 
+    Nudge.getBody().then((main)=>{   
+        cy.wait(2000);
+        cy.log("nitin ",main.find(Nudge.floater).length)
+          if(main.find(Nudge.floater).length>0){
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+        }})
+
+        Nudge.getinfobutton().click();
+        cy.wait(1000)
+        Nudge.getinfobutton().click();
         cy.wait(1000)
 
-         //to handle the nudges 
-         cy.get('body').then((main)=>{   
-            cy.wait(2000);
-            cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-              if(main.find('div[class="__floater__body"]').length>0){
-                cy.get('#next').click()
-                cy.wait(1000)
-                cy.get('#next').click()
-                cy.wait(1000)
-                cy.get('#next').click()
-                cy.wait(1000)
-                cy.get('#next').click()
-                cy.wait(1000)
-            }})
+        misc.returnRequestSubTabs().each(($el, index, $list) => {
+            const tabHeaders = $el.text();
 
-            cy.get('.Info_cursor-pointer__-pHVs').click();
+            if (tabHeaders.includes('Ongoing')) {
+                $el.click();
+            }
+        })
             cy.wait(1000)
-            cy.get('.Info_cursor-pointer__-pHVs').click();
+            misc.downloadCSV().click()
             cy.wait(1000)
-
-            cy.get('div[class="NavigateTabGroup_tabgroup-container__SOWwd"] h5 span').each(($el, index, $list) => {
-                const tabHeaders = $el.text();
-    
-                if (tabHeaders.includes('Ongoing')) {
-                    $el.click();
-                }
-            })
+            misc.popupTextForDownload().should('contain', 'Your file is being processed')
+            misc.reportsLinkFromPopup().should('exist')
             cy.wait(1000)
-            cy.get('button[data-sd-event="download"]').click();
+            misc.clickonOKButtontoDownload().click()
             cy.wait(1000)
-            cy.get('div[class="rs-modal-content"] p').should('contain', 'Your file is being processed')
-            cy.get('div[class="rs-modal-content"] p a').should('exist')
-            cy.wait(1000)
-            cy.get('div[class="rs-modal-content"] div button').click()
-            cy.wait(1000)
-            cy.get('.SideNav_sidenav-item-container__PAVyt > :nth-child(1)').trigger('mouseover');
+            misc.sidebarwidgets().trigger('mouseover');
         cy.wait(1000)
-        cy.get('div[class="SideNav_sidenav-item-container__PAVyt"] div[class="Flexbox_flex-row__aKbHb SideNav_menuitem-holder__QMiAA rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]').each(($el, index, $list) => {
+       misc.sidebarMenuItems().each(($el, index, $list) => {
             const settings = $el.find('p').text();
 
             if (settings.includes('Analytics')) {
                 $el.find('p').click();
             }
         })
-        cy.get(' a[href="/analytics/reports"]').click();
+        misc.reportsTabInAnalytics().click();
         cy.wait(1000)
-        cy.get('div[class="Flexbox_flex-row__aKbHb Flexbox_align-stretch__jf368 Flexbox_nowrap__8vOkG rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]').eq(0).each(($el)=>{
+        misc.reportList().eq(0).each(($el)=>{
            const returnDownloadcsv=$el.find('p').text()   
            cy.log(returnDownloadcsv)   
           if(returnDownloadcsv.includes('Requests')){
             cy.wait(1000)
-            $el.find('button[data-sd-event="downloadReport"]').click()
-            cy.wait(4000)
+            $el.find(Nudge.downloadReport).click()
+            cy.wait(1000)
           }
         })
     })
 
+
+    //Verify we are able to download the CSV from Pickup failed Requests tab and compare the values from CSV with the values present on dashboard
     it('ReturnRequests_02_05',function(){
-
+        const Nudge=new NudgesAndColumns();
+        const misc=new SidebarAndMisc();
         cy.visit(Cypress.env('url'))
-        cy.get('.rs-input').type(9380879945);
-        cy.get('.Button_button-primary__9i0Rz').click();
+        misc.enterPhoneNumberAndOTP().type(this.data.PhoneNo)
+        misc.submit().click()
         cy.wait(2000);
-        cy.get('.rs-input').type("0000");
-        cy.get('.Button_button-primary__9i0Rz').click();
-        cy.wait(2000);
-        cy.get('.SideNav_sidenav-item-container__PAVyt > :nth-child(1)').trigger('mouseover');
+        misc.enterPhoneNumberAndOTP().type(this.data.Password);
+        misc.submit().click();
+        cy.wait(2000)
+        Nudge.getBody().then((main)=>{   
+            cy.wait(2000);
+            cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+              if(main.find(Nudge.dialogue).length>0){
+                Nudge.nudgeClick().click();   
+                cy.wait(2000);
+            }})
+        misc.sidebarwidgets().trigger('mouseover');
         cy.wait(1000)
-        cy.get('div[class="SideNav_sidenav-item-container__PAVyt"] div[class="Flexbox_flex-row__aKbHb SideNav_menuitem-holder__QMiAA rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]').each(($el, index, $list) => {
+       misc.sidebarMenuItems().each(($el, index, $list) => {
             const settings = $el.find('p').text();
-
+    
             if (settings.includes('Orders')) {
                 $el.find('p').click();
             }
         })
-        cy.get('div.SideNav_sidenav-container__8XqV0 nav.sidenav-bar div.SideNav_sidenav-item-container__PAVyt div.SideNav_submenuitem-holder__dRus9:nth-child(5) a:nth-child(3) > div.Text_body2__0FftJ.Text_subtitles-colored__s5ggG').click();
+        misc.returnRequests().click();
+    cy.wait(1000)
+
+        //to handle the nudges 
+    Nudge.getBody().then((main)=>{   
+        cy.wait(2000);
+        cy.log("nitin ",main.find(Nudge.floater).length)
+          if(main.find(Nudge.floater).length>0){
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+        }})
+
+        Nudge.getinfobutton().click();
+        cy.wait(1000)
+        Nudge.getinfobutton().click();
         cy.wait(1000)
 
-         //to handle the nudges 
-         cy.get('body').then((main)=>{   
-            cy.wait(2000);
-            cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-              if(main.find('div[class="__floater__body"]').length>0){
-                cy.get('#next').click()
-                cy.wait(1000)
-                cy.get('#next').click()
-                cy.wait(1000)
-                cy.get('#next').click()
-                cy.wait(1000)
-                cy.get('#next').click()
-                cy.wait(1000)           
-            }})
+           
+        misc.returnRequestSubTabs().each(($el, index, $list) => {
+            const tabHeaders = $el.text();
 
-            cy.get('.Info_cursor-pointer__-pHVs').click();
-            cy.wait(1000)
-            cy.get('.Info_cursor-pointer__-pHVs').click();
-            cy.wait(1000)
-
-            cy.get('div[class="NavigateTabGroup_tabgroup-container__SOWwd"] h5 span').each(($el, index, $list) => {
-                const tabHeaders = $el.text();
-    
-                if (tabHeaders.includes('Pickup')) {
-                    $el.click();
-                }
-            })
-            cy.wait(1000)
-            cy.get('button[data-sd-event="download"]').click();
-            cy.wait(1000)
-            cy.get('div[class="rs-modal-content"] p').should('contain', 'Your file is being processed')
-            cy.get('div[class="rs-modal-content"] p a').should('exist')
-            cy.wait(1000)
-            cy.get('div[class="rs-modal-content"] div button').click()
-            cy.wait(1000)
-            cy.get('.SideNav_sidenav-item-container__PAVyt > :nth-child(1)').trigger('mouseover');
-        cy.wait(1000)
-        cy.get('div[class="SideNav_sidenav-item-container__PAVyt"] div[class="Flexbox_flex-row__aKbHb SideNav_menuitem-holder__QMiAA rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]').each(($el, index, $list) => {
-            const settings = $el.find('p').text();
-
-            if (settings.includes('Analytics')) {
-                $el.find('p').click();
+            if (tabHeaders.includes('Pickup Failed')) {
+                $el.click();
             }
         })
-        cy.get(' a[href="/analytics/reports"]').click();
         cy.wait(1000)
-        cy.get('div[class="Flexbox_flex-row__aKbHb Flexbox_align-stretch__jf368 Flexbox_nowrap__8vOkG rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]').eq(0).each(($el)=>{
-           const returnDownloadcsv=$el.find('p').text()   
-           cy.log(returnDownloadcsv)   
-          if(returnDownloadcsv.includes('Requests')){
-            cy.wait(1000)
-            $el.find('button[data-sd-event="downloadReport"]').click()
-            cy.wait(1000)
-          }
-        })
+        misc.downloadCSV().click()
+        cy.wait(1000)
+        misc.popupTextForDownload().should('contain', 'Your file is being processed')
+        misc.reportsLinkFromPopup().should('exist')
+        cy.wait(1000)
+        misc.clickonOKButtontoDownload().click()
+        cy.wait(1000)
+        misc.sidebarwidgets().trigger('mouseover');
+    cy.wait(1000)
+   misc.sidebarMenuItems().each(($el, index, $list) => {
+        const settings = $el.find('p').text();
+
+        if (settings.includes('Analytics')) {
+            $el.find('p').click();
+        }
+    })
+    misc.reportsTabInAnalytics().click();
+    cy.wait(1000)
+    misc.reportList().eq(0).each(($el)=>{
+       const returnDownloadcsv=$el.find('p').text()   
+       cy.log(returnDownloadcsv)   
+      if(returnDownloadcsv.includes('Requests')){
+        cy.wait(1000)
+        $el.find(Nudge.downloadReport).click()
+        cy.wait(1000)
+      }
+    })
     })
 
+    //Verify we are able to download the CSV from Settlement Pending Requests tab and compare the values from CSV with the values present on dashboard
     it('ReturnRequests_02_07',function(){
-
+        const Nudge=new NudgesAndColumns();
+        const misc=new SidebarAndMisc();
         cy.visit(Cypress.env('url'))
-        cy.get('.rs-input').type(9380879945);
-        cy.get('.Button_button-primary__9i0Rz').click();
+        misc.enterPhoneNumberAndOTP().type(this.data.PhoneNo)
+        misc.submit().click()
         cy.wait(2000);
-        cy.get('.rs-input').type("0000");
-        cy.get('.Button_button-primary__9i0Rz').click();
-        cy.wait(2000);
-        cy.get('.SideNav_sidenav-item-container__PAVyt > :nth-child(1)').trigger('mouseover');
+        misc.enterPhoneNumberAndOTP().type(this.data.Password);
+        misc.submit().click();
+        cy.wait(2000)
+        Nudge.getBody().then((main)=>{   
+            cy.wait(2000);
+            cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+              if(main.find(Nudge.dialogue).length>0){
+                Nudge.nudgeClick().click();   
+                cy.wait(2000);
+            }})
+        misc.sidebarwidgets().trigger('mouseover');
         cy.wait(1000)
-        cy.get('div[class="SideNav_sidenav-item-container__PAVyt"] div[class="Flexbox_flex-row__aKbHb SideNav_menuitem-holder__QMiAA rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]').each(($el, index, $list) => {
+       misc.sidebarMenuItems().each(($el, index, $list) => {
             const settings = $el.find('p').text();
-
+    
             if (settings.includes('Orders')) {
                 $el.find('p').click();
             }
         })
-        cy.get('div.SideNav_sidenav-container__8XqV0 nav.sidenav-bar div.SideNav_sidenav-item-container__PAVyt div.SideNav_submenuitem-holder__dRus9:nth-child(5) a:nth-child(3) > div.Text_body2__0FftJ.Text_subtitles-colored__s5ggG').click();
+        misc.returnRequests().click();
+    cy.wait(1000)
+
+        //to handle the nudges 
+    Nudge.getBody().then((main)=>{   
+        cy.wait(2000);
+        cy.log("nitin ",main.find(Nudge.floater).length)
+          if(main.find(Nudge.floater).length>0){
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+        }})
+
+        Nudge.getinfobutton().click();
+        cy.wait(1000)
+        Nudge.getinfobutton().click();
         cy.wait(1000)
 
-         //to handle the nudges 
-         cy.get('body').then((main)=>{   
-            cy.wait(2000);
-            cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-              if(main.find('div[class="__floater__body"]').length>0){
-                cy.get('#next').click()
-                cy.wait(1000)
-                cy.get('#next').click()
-                cy.wait(1000)
-                cy.get('#next').click()
-                cy.wait(1000)
-                cy.get('#next').click()
-                cy.wait(1000)
-            }})
+        misc.returnRequestSubTabs().each(($el, index, $list) => {
+            const tabHeaders = $el.text();
 
-            cy.get('.Info_cursor-pointer__-pHVs').click();
-            cy.wait(1000)
-            cy.get('.Info_cursor-pointer__-pHVs').click();
-            cy.wait(1000)
-
-            cy.get('div[class="NavigateTabGroup_tabgroup-container__SOWwd"] h5 span').each(($el, index, $list) => {
-                const tabHeaders = $el.text();
-    
-                if (tabHeaders.includes('Settlement')) {
-                    $el.click();
-                }
-            })
-            cy.wait(1000)
-            cy.get('button[data-sd-event="download"]').click();
-            cy.wait(1000)
-            cy.get('div[class="rs-modal-content"] p').should('contain', 'Your file is being processed')
-            cy.get('div[class="rs-modal-content"] p a').should('exist')
-            cy.wait(1000)
-            cy.get('div[class="rs-modal-content"] div button').click()
-            cy.wait(1000)
-            cy.get('.SideNav_sidenav-item-container__PAVyt > :nth-child(1)').trigger('mouseover');
-        cy.wait(1000)
-        cy.get('div[class="SideNav_sidenav-item-container__PAVyt"] div[class="Flexbox_flex-row__aKbHb SideNav_menuitem-holder__QMiAA rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]').each(($el, index, $list) => {
-            const settings = $el.find('p').text();
-
-            if (settings.includes('Analytics')) {
-                $el.find('p').click();
+            if (tabHeaders.includes('Settlement Pending')) {
+                $el.click();
             }
         })
-        cy.get(' a[href="/analytics/reports"]').click();
+            cy.wait(1000)
+        misc.downloadCSV().click()
         cy.wait(1000)
-        cy.get('div[class="Flexbox_flex-row__aKbHb Flexbox_align-stretch__jf368 Flexbox_nowrap__8vOkG rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]').eq(0).each(($el)=>{
-           const returnDownloadcsv=$el.find('p').text()   
-           cy.log(returnDownloadcsv)   
-          if(returnDownloadcsv.includes('Requests')){
-            cy.wait(1000)
-            $el.find('button[data-sd-event="downloadReport"]').click()
-            cy.wait(1000)
-          }
-        })
+        misc.popupTextForDownload().should('contain', 'Your file is being processed')
+        misc.reportsLinkFromPopup().should('exist')
+        cy.wait(1000)
+        misc.clickonOKButtontoDownload().click()
+        cy.wait(1000)
+        misc.sidebarwidgets().trigger('mouseover');
+    cy.wait(1000)
+   misc.sidebarMenuItems().each(($el, index, $list) => {
+        const settings = $el.find('p').text();
+
+        if (settings.includes('Analytics')) {
+            $el.find('p').click();
+        }
+    })
+    misc.reportsTabInAnalytics().click();
+    cy.wait(1000)
+    misc.reportList().eq(0).each(($el)=>{
+       const returnDownloadcsv=$el.find('p').text()   
+       cy.log(returnDownloadcsv)   
+      if(returnDownloadcsv.includes('Requests')){
+        cy.wait(1000)
+        $el.find(Nudge.downloadReport).click()
+        cy.wait(1000)
+      }
+    })
     })
 
+    //Verify we are able to download the CSV from Closed Requests tab and compare the values from CSV with the values present on dashboard
     it('ReturnRequests_02_09',function(){
-
+        const Nudge=new NudgesAndColumns();
+        const misc=new SidebarAndMisc();
         cy.visit(Cypress.env('url'))
-        cy.get('.rs-input').type(9380879945);
-        cy.get('.Button_button-primary__9i0Rz').click();
+        misc.enterPhoneNumberAndOTP().type(this.data.PhoneNo)
+        misc.submit().click()
         cy.wait(2000);
-        cy.get('.rs-input').type('0000');
-        cy.get('.Button_button-primary__9i0Rz').click();
-        cy.wait(2000);
-        cy.get('.SideNav_sidenav-item-container__PAVyt > :nth-child(1)').trigger('mouseover');
+        misc.enterPhoneNumberAndOTP().type(this.data.Password);
+        misc.submit().click();
+        cy.wait(2000)
+        Nudge.getBody().then((main)=>{   
+            cy.wait(2000);
+            cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+              if(main.find(Nudge.dialogue).length>0){
+                Nudge.nudgeClick().click();   
+                cy.wait(2000);
+            }})
+        misc.sidebarwidgets().trigger('mouseover');
         cy.wait(1000)
-        cy.get('div[class="SideNav_sidenav-item-container__PAVyt"] div[class="Flexbox_flex-row__aKbHb SideNav_menuitem-holder__QMiAA rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]').each(($el, index, $list) => {
+       misc.sidebarMenuItems().each(($el, index, $list) => {
             const settings = $el.find('p').text();
-
+    
             if (settings.includes('Orders')) {
                 $el.find('p').click();
             }
         })
-        cy.get('div.SideNav_sidenav-container__8XqV0 nav.sidenav-bar div.SideNav_sidenav-item-container__PAVyt div.SideNav_submenuitem-holder__dRus9:nth-child(5) a:nth-child(3) > div.Text_body2__0FftJ.Text_subtitles-colored__s5ggG').click();
+        misc.returnRequests().click();
+    cy.wait(1000)
+
+        //to handle the nudges 
+    Nudge.getBody().then((main)=>{   
+        cy.wait(2000);
+        cy.log("nitin ",main.find(Nudge.floater).length)
+          if(main.find(Nudge.floater).length>0){
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+        }})
+
+        Nudge.getinfobutton().click();
+        cy.wait(1000)
+        Nudge.getinfobutton().click();
         cy.wait(1000)
 
-         //to handle the nudges 
-         cy.get('body').then((main)=>{   
-            cy.wait(2000);
-            cy.log("nitin ",main.find('div[class="__floater__body"]').length)
-              if(main.find('div[class="__floater__body"]').length>0){
-                cy.get('#next').click()
-                cy.wait(1000)
-                cy.get('#next').click()
-                cy.wait(1000)
-                cy.get('#next').click()
-                cy.wait(1000)
-                cy.get('#next').click()
-                cy.wait(1000)
-            }})
-
-            cy.get('.Info_cursor-pointer__-pHVs').click();
-            cy.wait(1000)
-            cy.get('.Info_cursor-pointer__-pHVs').click();
-            cy.wait(1000)
-
-            cy.get('div[class="NavigateTabGroup_tabgroup-container__SOWwd"] h5 span').each(($el, index, $list) => {
+            misc.returnRequestSubTabs().each(($el, index, $list) => {
                 const tabHeaders = $el.text();
     
-                if (tabHeaders.includes('Closed')) {
+                if (tabHeaders.includes('Closed Requests')) {
                     $el.click();
                 }
             })
             cy.wait(1000)
-            cy.get('button[data-sd-event="download"]').click();
+            misc.downloadCSV().click()
             cy.wait(1000)
-            cy.get('div[class="rs-modal-content"] p').should('contain', 'Your file is being processed')
-            cy.get('div[class="rs-modal-content"] p a').should('exist')
+            misc.popupTextForDownload().should('contain', 'Your file is being processed')
+            misc.reportsLinkFromPopup().should('exist')
             cy.wait(1000)
-            cy.get('div[class="rs-modal-content"] div button').click()
+            misc.clickonOKButtontoDownload().click()
             cy.wait(1000)
-            cy.get('.SideNav_sidenav-item-container__PAVyt > :nth-child(1)').trigger('mouseover');
+            misc.sidebarwidgets().trigger('mouseover');
         cy.wait(1000)
-        cy.get('div[class="SideNav_sidenav-item-container__PAVyt"] div[class="Flexbox_flex-row__aKbHb SideNav_menuitem-holder__QMiAA rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]').each(($el, index, $list) => {
+       misc.sidebarMenuItems().each(($el, index, $list) => {
             const settings = $el.find('p').text();
-
+    
             if (settings.includes('Analytics')) {
                 $el.find('p').click();
             }
         })
-        cy.get(' a[href="/analytics/reports"]').click();
+        misc.reportsTabInAnalytics().click();
         cy.wait(1000)
-        cy.get('div[class="Flexbox_flex-row__aKbHb Flexbox_align-stretch__jf368 Flexbox_nowrap__8vOkG rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"]').eq(0).each(($el)=>{
+        misc.reportList().eq(0).each(($el)=>{
            const returnDownloadcsv=$el.find('p').text()   
            cy.log(returnDownloadcsv)   
           if(returnDownloadcsv.includes('Requests')){
             cy.wait(1000)
-            $el.find('button[data-sd-event="downloadReport"]').click()
+            $el.find(Nudge.downloadReport).click()
             cy.wait(1000)
           }
         })
