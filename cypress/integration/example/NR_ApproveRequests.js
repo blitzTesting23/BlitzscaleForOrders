@@ -4,6 +4,7 @@ import ApproveRequests from "../PageObjects/ApproveReturnRequests"
 import SidebarAndMisc from "../PageObjects/SidebarAndMisc"
 
 describe('New Requests filter check', function () {
+    let OrderIDForReturn
     beforeEach(function () {
         cy.fixture('example').then(function (data) {
             this.data = data
@@ -11,6 +12,7 @@ describe('New Requests filter check', function () {
     })
 //Verify 'View More'&'View less' button is clickable and responsive from the fields ,like "Book return shipment","QC","Auto Settlement"& by clicking on "View QC checklist"opens qc checklist in the new requests tab 
     it('ReturnRequests_05_01',function(){
+        let OrderIDForReturn
         const Nudge=new NudgesAndColumns();
         const filters=new Filters();
         const approve=new ApproveRequests();
@@ -77,8 +79,8 @@ describe('New Requests filter check', function () {
 
                      if (length === 1) {
                          filters.OrderIDFromtheOrderdetailsLineItem().then(($el)=>{
-                             const OrderID=$el.text()
-                             if(OrderID.includes(this.data.newRequestsOrderID)){
+                             OrderIDForReturn=$el.text()
+                             if(OrderIDForReturn.includes(this.data.newRequestsOrderID)){
                                 cy.log('The searched ID is present in the table')
                              }
                          })
@@ -203,6 +205,8 @@ describe('New Requests filter check', function () {
 
             misc.expenseLedger().click();
             cy.wait(1000)
+            misc.expenseLedgerHover().click()
+            cy.wait(1000)
             filters.getSearchFilterDropDown().click()    
             cy.wait(1000)  
                 filters.getSearchFilterDropDown().each(($el, index, $list) => {
@@ -211,11 +215,11 @@ describe('New Requests filter check', function () {
                         $el.click();
                     }
                 })
-                filters.getInputBoxForSearchFilter().type(this.data.newRequestsOrderID)
+                filters.getInputBoxForSearchFilter().type(OrderIDForReturn)
                 filters.getSearchSVG().click()
                 cy.wait(1000)
-                approve.returnOrderRefundOrderID().should('contain',this.data.newRequestsOrderID) //return Order Refund Order ID assertion
-                approve.shippingChargeOrderID().should('contain',this.data.newRequestsOrderID)    //shipping charge Order ID assertion
+                approve.returnOrderRefundOrderID().should('contain',OrderIDForReturn) //return Order Refund Order ID assertion
+                approve.shippingChargeOrderID().should('contain',OrderIDForReturn)    //shipping charge Order ID assertion
                 approve.spendTypeForReturnOrderRefund().should('contain','Return Order Refund')  //spendType assertion for return order refund 
                 approve.spendTypeForShippingcharge().should('contain','Shipping Charge')  //spendtype assertion for shipping charge 
                 approve.amountForReturnOrderRefund().should('contain','-')  //amount assertion for return order refund 
@@ -237,6 +241,7 @@ describe('New Requests filter check', function () {
     
     //Verify the selectable and unselectable fields and amount fields for the approve return request in new requests tab 
     it('ReturnRequests_05_02',function(){
+       let OrderIDForReturn
         const Nudge=new NudgesAndColumns();
         const filters=new Filters();
         const approve=new ApproveRequests();
@@ -304,8 +309,8 @@ describe('New Requests filter check', function () {
 
                      if (length === 1) {
                          filters.OrderIDFromtheOrderdetailsLineItem().then(($el)=>{
-                             const OrderID=$el.text()
-                             if(OrderID.includes(this.data.newRequestsOrderID)){
+                            OrderIDForReturn=$el.text()
+                             if(OrderIDForReturn.includes(this.data.newRequestsOrderID)){
                                 cy.log('The searched ID is present in the table')
                              }
                          })
@@ -406,6 +411,8 @@ describe('New Requests filter check', function () {
 
             misc.expenseLedger().click();
             cy.wait(1000)
+            misc.expenseLedgerHover().click()
+            cy.wait(1000)
             filters.getSearchFilterDropDown().click()    
             cy.wait(1000)  
                 filters.getSearchFilterDropDown().each(($el, index, $list) => {
@@ -414,11 +421,11 @@ describe('New Requests filter check', function () {
                         $el.click();
                     }
                 })
-                filters.getInputBoxForSearchFilter().type('R_NS0T81701941715098')
+                filters.getInputBoxForSearchFilter().type(OrderIDForReturn)
                 filters.getSearchSVG().click()
                 cy.wait(1000)
-                approve.returnOrderRefundOrderID().should('contain','R_NS0T81701941715098') //return Order Refund Order ID assertion
-                approve.shippingChargeOrderID().should('contain','R_NS0T81701941715098')    //shipping charge Order ID assertion
+                approve.returnOrderRefundOrderID().should('contain',OrderIDForReturn) //return Order Refund Order ID assertion
+                approve.shippingChargeOrderID().should('contain',OrderIDForReturn)    //shipping charge Order ID assertion
                 approve.spendTypeForReturnOrderRefund().should('contain','Return Order Refund')  //spendType assertion for return order refund 
                 approve.spendTypeForShippingcharge().should('contain','Shipping Charge')  //spendtype assertion for shipping charge 
                 approve.amountForReturnOrderRefund().should('contain','-')  //amount assertion for return order refund 
@@ -463,7 +470,7 @@ describe('New Requests filter check', function () {
         cy.wait(1000)
        misc.sidebarMenuItems().each(($el, index, $list) => {
             const settings = $el.find('p').text();
-
+    
             if (settings.includes('Orders')) {
                 $el.find('p').click();
             }
@@ -484,7 +491,7 @@ describe('New Requests filter check', function () {
                 Nudge.getNudges().click()
                 cy.wait(1000)
             }})
-
+    
             Nudge.getinfobutton().click();
             cy.wait(1000)
             Nudge.getinfobutton().click();
@@ -496,20 +503,23 @@ describe('New Requests filter check', function () {
                 $el.click();
             }
         })
-        filters.getInputBoxForSearchFilter().type(this.data.newRequestsOrderID)
+        filters.getInputBoxForSearchFilter().type(this.data.newRequestsOrderID)   //this.data.newRequestsOrderID
         filters.getSearchSVG().click()    
+       var  shippingrateWithQC;
+       var shippingrateWithoutQC ;
         filters.searchResultCard().then((cardforresults)=>{   
            cy.log("The length present",cardforresults.find('p').length)
              if(cardforresults.find('p').length>0)
              {
                  filters.OrderDetailsLineItem().then(($value) => {
                      length = $value.length
-
+    
                      if (length === 1) {
                          filters.OrderIDFromtheOrderdetailsLineItem().then(($el)=>{
-                             const OrderID=$el.text()
-                             if(OrderID.includes(this.data.newRequestsOrderID)){
-                                cy.log('The searched ID is present in the table')
+                              OrderIDForReturn=$el.text()
+                             cy.log(OrderIDForReturn)
+                             if(OrderIDForReturn.includes(this.data.newRequestsOrderID)){     //this.data.newRequestsOrderID
+                                cy.log('The searched ID is present in the table',OrderIDForReturn)
                              }
                          })
                      }
@@ -527,55 +537,39 @@ describe('New Requests filter check', function () {
                                 cy.wait(1000)
                             }
                         })
-
+    
                         approve.header().should('have.text','Approve Return Request')
                         approve.bookreturnshipmenttext().should('contain','Book Return Shipment')
                         approve.qcOnReturnText().should('contain','Quality Check on Return')
                         approve.autoSettlementText().should('contain','Auto Settlement')
                        approve.shippingPartnerCheck().eq(1).then((shippingpartner)=>{
-                        if(shippingpartner.find('div[role="gridcell"]').length>0){
-                           cy.log('shipping partners available are ',shippingpartner.find('div[role="gridcell"]').text()) //available Logistic partners 
+                        if(shippingpartner.find(Nudge.gridcell).length>0){
+                           cy.log('shipping partners available are ',shippingpartner.find(Nudge.gridcell).text()) //available Logistic partners 
                         }
                        })
-                      approve.shippingPartnerList().each(($el, index, $list) => {  //select the Logistic partners 
-                        const courierpartner = $el.text();
-                        if(courierpartner.includes('Ecom')){
-                            $el.click();
-                        }
+                       approve.shippingPartnerList().eq(0).then(($el) => {  //select the Logistic partners 
+                        shippingrateWithQC= parseFloat($el.siblings('h4').text())   
+                        cy.log('shipping partner with QC ',shippingrateWithQC)
+                        $el.eq(0).click();
                     })
-                    //approve.approveButton().click();
-                 // cy.wait(1000)
                     })
-
-                    approve.qcCheckListButton().click()//click on QC checklist 
-                    cy.wait(1000)
-                    approve.header().should('have.text','QC Checklist') //Assert the QC checklist window 
-                    approve.productTypeDropDown().click()
-                    cy.wait(1000)
-                    approve.optionsfromtheDropdown().each(($el, index, $list) => {
-                        $el.click().eq(3)   //ProductType DropDown
-                    })   
-                  approve.sizeDropdown().click()
-                    cy.wait(1000)
-                    approve.optionsfromtheDropdown().each(($el, index, $list) => {
-                        $el.click().eq(6) //SizeDropDown
-                    })          
-                    approve.inputForQC().clear()
-                    approve.inputForQC().type('Color') //color
-                    approve.approveButton().click()
                     .then(()=>{
-                        approve.checkboxForApproveReturnRequest().check({ force: true })                   
-                        approve.areaCheckedTrue().should('exist')
+                        approve.checkboxForApproveReturnRequest().eq(1).uncheck({force:true})               
+                        approve.areaCheckedFalse().should('exist')
                         cy.wait(1000)
-                        approve.approveButton().click()
-                        cy.wait(1000)
-
+                        approve.shippingPartnerList().eq(0).then(($el) => {  //select the Logistic partners 
+                            shippingrateWithoutQC= parseFloat($el.siblings('h4').text())         
+                            cy.log('Without QC charges',shippingrateWithoutQC)      
+                            cy.log('With QC charges',shippingrateWithQC) 
+                            cy.wait(1000)
+                           expect(shippingrateWithQC).to.eq(shippingrateWithoutQC + 15)                       
+                         
+                        })
+                        
+                         approve.approveButton().click()
+                         cy.wait(1000)
                     })
-                    // approve.checkboxForApproveReturnRequest().check({ force: true })                   
-                    // approve.areaCheckedTrue().should('exist')
-                    // cy.wait(1000)
-                    // approve.approveButton().click()
-                    // cy.wait(1000)
+                   
                     filters.getInputBoxForSearchFilter().type(this.data.newRequestsOrderID)
                     cy.wait(1000)
                     filters.getSearchSVG().click()    
@@ -599,11 +593,11 @@ describe('New Requests filter check', function () {
               {
                   filters.OrderDetailsLineItem().then(($value) => {
                       length = $value.length
- 
+    
                       if (length === 1) {
                           filters.OrderIDFromtheOrderdetailsLineItem().then(($el)=>{
-                            const OrderID=$el.text()
-                              if(OrderID.includes(this.data.newRequestsOrderID)){
+                             OrderIDForReturn=$el.text()
+                              if(OrderIDForReturn.includes(this.data.newRequestsOrderID)){
                                  cy.log('The searched ID is present in the table and AWB is created')
                                  
                               approve.returnshippingstatus().should('contain','Created')
@@ -620,39 +614,43 @@ describe('New Requests filter check', function () {
                       }  
                      })        
               }
-            })     
-            misc.sidebarwidgets().trigger('mouseover');
-            cy.wait(1000)
-           misc.sidebarMenuItems().each(($el, index, $list) => {
-                const settings = $el.find('p').text();
-    
-                if (settings.includes('Finance')) {
-                    $el.find('p').click();
-                }
-            })
-
-            misc.expenseLedger().click();
-            cy.wait(1000)
-            filters.getSearchFilterDropDown().click()    
-            cy.wait(1000)  
-                filters.getSearchFilterDropDown().each(($el, index, $list) => {
-                    const searchBox = $el.find('p').text();
-                    if (searchBox.includes('Action')) {
-                        $el.click();
-                    }
-                })
-                filters.getInputBoxForSearchFilter().type(this.data.newRequestsOrderID)
-                filters.getSearchSVG().click()
+            }).then(()=>{
+                misc.sidebarwidgets().trigger('mouseover');
                 cy.wait(1000)
-                approve.returnOrderRefundOrderID().should('contain',this.data.newRequestsOrderID) //return Order Refund Order ID assertion
-                approve.shippingChargeOrderID().should('contain',this.data.newRequestsOrderID)    //shipping charge Order ID assertion
-                approve.spendTypeForReturnOrderRefund().should('contain','Return Order Refund')  //spendType assertion for return order refund 
-                approve.spendTypeForShippingcharge().should('contain','Shipping Charge')  //spendtype assertion for shipping charge 
-                approve.amountForReturnOrderRefund().should('contain','-')  //amount assertion for return order refund 
-                approve.amountForShippingCharge().should('contain','-')     //amount assertion for shipping charge 
-                approve.triggerForOrderRefund().should('contain','Return')  //trigger state for return order refund 
-                approve.triggerForShippingCharge().should('contain','Return') //trigger state for return shipping charge 
-
+               misc.sidebarMenuItems().each(($el, index, $list) => {
+                    const settings = $el.find('p').text();
+        
+                    if (settings.includes('Finance')) {
+                        $el.find('p').click();
+                    }
+                }).then(()=>{
+    
+                    misc.expenseLedger().click();
+                    cy.wait(1000)
+                    misc.expenseLedgerHover().click()
+            cy.wait(1000)
+                    filters.getSearchFilterDropDown().click()    
+                    cy.wait(1000)  
+                        filters.getSearchFilterDropDown().each(($el, index, $list) => {
+                            const searchBox = $el.find('p').text();
+                            if (searchBox.includes('Action')) {
+                                $el.click();
+                            }
+                        })
+                        cy.log('the order in expense ledger ',OrderIDForReturn)
+                        filters.getInputBoxForSearchFilter().type(OrderIDForReturn)
+                        filters.getSearchSVG().click()
+                        cy.wait(1000)
+                        approve.returnOrderRefundOrderID().should('contain',OrderIDForReturn) //return Order Refund Order ID assertion
+                        approve.shippingChargeOrderID().should('contain',OrderIDForReturn)    //shipping charge Order ID assertion
+                        approve.spendTypeForReturnOrderRefund().should('contain','Return Order Refund')  //spendType assertion for return order refund 
+                        approve.spendTypeForShippingcharge().should('contain','Shipping Charge')  //spendtype assertion for shipping charge 
+                        approve.amountForReturnOrderRefund().should('contain','-')  //amount assertion for return order refund 
+                        approve.amountForShippingCharge().should('contain','-')     //amount assertion for shipping charge 
+                        approve.triggerForOrderRefund().should('contain','Return')  //trigger state for return order refund 
+                        approve.triggerForShippingCharge().should('contain','Return') //trigger state for return shipping charge 
+                })
+            })     
              }
              else{
                 misc.noresultFound().then(($el)=>{
@@ -662,7 +660,7 @@ describe('New Requests filter check', function () {
              })
                 }
          }) 
-
+    
     })
 
 
@@ -859,6 +857,8 @@ describe('New Requests filter check', function () {
             })
 
             misc.expenseLedger().click();
+            cy.wait(1000)
+            misc.expenseLedgerHover().click()
             cy.wait(1000)
             filters.getSearchFilterDropDown().click()    
             cy.wait(1000)  
@@ -1086,6 +1086,8 @@ describe('New Requests filter check', function () {
 
             misc.expenseLedger().click();
             cy.wait(1000)
+            misc.expenseLedgerHover().click()
+            cy.wait(1000)
             filters.getSearchFilterDropDown().click()    
             cy.wait(1000)  
                 filters.getSearchFilterDropDown().each(($el, index, $list) => {
@@ -1311,6 +1313,8 @@ describe('New Requests filter check', function () {
             })
 
             misc.expenseLedger().click();
+            cy.wait(1000)
+            misc.expenseLedgerHover().click()
             cy.wait(1000)
             filters.getSearchFilterDropDown().click()    
             cy.wait(1000)  
@@ -1539,6 +1543,8 @@ describe('New Requests filter check', function () {
 
         misc.expenseLedger().click();
         cy.wait(1000)
+        misc.expenseLedgerHover().click()
+            cy.wait(1000)
         filters.getSearchFilterDropDown().click()    
         cy.wait(1000)  
             filters.getSearchFilterDropDown().each(($el, index, $list) => {
@@ -1765,6 +1771,8 @@ it('ReturnRequests_05_10',function(){
 
         misc.expenseLedger().click();
         cy.wait(1000)
+        misc.expenseLedgerHover().click()
+            cy.wait(1000)
         filters.getSearchFilterDropDown().click()    
         cy.wait(1000)  
             filters.getSearchFilterDropDown().each(($el, index, $list) => {
@@ -1991,6 +1999,8 @@ it('ReturnRequests_05_11',function(){
 
         misc.expenseLedger().click();
         cy.wait(1000)
+        misc.expenseLedgerHover().click()
+            cy.wait(1000)
         filters.getSearchFilterDropDown().click()    
         cy.wait(1000)  
             filters.getSearchFilterDropDown().each(($el, index, $list) => {
@@ -2217,6 +2227,8 @@ it('ReturnRequests_05_12',function(){
 
         misc.expenseLedger().click();
         cy.wait(1000)
+        misc.expenseLedgerHover().click()
+            cy.wait(1000)
         filters.getSearchFilterDropDown().click()    
         cy.wait(1000)  
             filters.getSearchFilterDropDown().each(($el, index, $list) => {
@@ -2248,8 +2260,6 @@ it('ReturnRequests_05_12',function(){
      }) 
 
 })
-
-
 
 
 })

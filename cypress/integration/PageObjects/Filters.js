@@ -1,6 +1,6 @@
 class Filters{
 
-    firstGridCell='div[class="Table_card-cell__MSHm0 Table_padding-vertical-default__KZdfK Table_padding-horizontal-lg__hWECV rs-flex-box-grid-item rs-flex-box-grid-item-0 rs-col rs-col-xl-3 rs-col-lg-4 rs-col-md-5 rs-col-sm-7"]'
+    firstGridCell='div[class="Table_card-cell__MSHm0 Table_padding-horizontal-lg__hWECV Table_padding-vertical-default__KZdfK rs-flex-box-grid-item rs-flex-box-grid-item-0 rs-col rs-col-xl-3 rs-col-lg-4 rs-col-md-5 rs-col-sm-7"]'
 
 getSearchFilterDropDown(){
    return cy.get('div[class="InputSearch_input-search__utz3W rs-input-group"] div[role="combobox"]') //clicks on the search 

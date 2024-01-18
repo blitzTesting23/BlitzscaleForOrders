@@ -81,7 +81,9 @@ return cy.get('div.SideNav_sidenav-container__8XqV0 nav.sidenav-bar div.SideNav_
     placeorderFromOrders(){
         return cy.get('a[href="/orders/place-order"]');
     }
-
+    expenseLedgerHover(){
+        return cy.get('h2[class="heading2"]')
+    }
     
 
      }

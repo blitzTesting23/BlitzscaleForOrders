@@ -11,8 +11,8 @@ describe('New Requests filter check', function () {
         })
     })
 
-//Verify The return request is approved with options Book Return Shipment=True,QC on return=false,Auto Settlement=true and shipping partners present in the new requests tab 
-it('ReturnRequests_05_05',function(){
+//Verify 'View More'&'View less' button is clickable and responsive from the fields ,like "Book return shipment","QC","Auto Settlement"& by clicking on "View QC checklist"opens qc checklist in the new requests tab 
+it('ReturnRequests_05_01',function(){
     let OrderIDForReturn
     const Nudge=new NudgesAndColumns();
     const filters=new Filters();
@@ -69,10 +69,8 @@ it('ReturnRequests_05_05',function(){
             $el.click();
         }
     })
-    filters.getInputBoxForSearchFilter().type(this.data.newRequestsOrderID)   //this.data.newRequestsOrderID
+    filters.getInputBoxForSearchFilter().type(this.data.TrackOrderID)
     filters.getSearchSVG().click()    
-   var  shippingrateWithQC;
-   var shippingrateWithoutQC ;
     filters.searchResultCard().then((cardforresults)=>{   
        cy.log("The length present",cardforresults.find('p').length)
          if(cardforresults.find('p').length>0)
@@ -82,9 +80,9 @@ it('ReturnRequests_05_05',function(){
 
                  if (length === 1) {
                      filters.OrderIDFromtheOrderdetailsLineItem().then(($el)=>{
-                          OrderIDForReturn=$el.text()
+                         OrderIDForReturn=$el.text()
                          cy.log(OrderIDForReturn)
-                         if(OrderIDForReturn.includes(this.data.newRequestsOrderID)){     //this.data.newRequestsOrderID
+                         if(OrderIDForReturn.includes(this.data.TrackOrderID)){
                             cy.log('The searched ID is present in the table')
                          }
                      })
@@ -109,34 +107,50 @@ it('ReturnRequests_05_05',function(){
                     approve.qcOnReturnText().should('contain','Quality Check on Return')
                     approve.autoSettlementText().should('contain','Auto Settlement')
                    approve.shippingPartnerCheck().eq(1).then((shippingpartner)=>{
-                    if(shippingpartner.find(Nudge.gridcell).length>0){
-                       cy.log('shipping partners available are ',shippingpartner.find(Nudge.gridcell).text()) //available Logistic partners 
+                    if(shippingpartner.find('div[role="gridcell"]').length>0){
+                       cy.log('shipping partners available are ',shippingpartner.find('div[role="gridcell"]').text()) //available Logistic partners 
                     }
                    })
-                   approve.shippingPartnerList().eq(0).then(($el) => {  //select the Logistic partners 
-                    shippingrateWithQC= parseFloat($el.siblings('h4').text())   
-                    cy.log('shipping partner with QC ',shippingrateWithQC)
-                    $el.eq(0).click();
+                  approve.shippingPartnerList().each(($el, index, $list) => {  //select the Logistic partners 
+                    const courierpartner = $el.text();
+                    if(courierpartner.includes('Ecom')){
+                        $el.click();
+                    }
                 })
+                //approve.approveButton().click();
+             // cy.wait(1000)
                 })
+
+                approve.qcCheckListButton().click()//click on QC checklist 
+                cy.wait(1000)
+                approve.header().should('have.text','QC Checklist') //Assert the QC checklist window 
+                approve.productTypeDropDown().click()
+                cy.wait(1000)
+                approve.optionsfromtheDropdown().each(($el, index, $list) => {
+                    $el.click().eq(3)   //ProductType DropDown
+                })   
+              approve.sizeDropdown().click()
+                cy.wait(1000)
+                approve.optionsfromtheDropdown().each(($el, index, $list) => {
+                    $el.click().eq(6) //SizeDropDown
+                })          
+                approve.inputForQC().clear()
+                approve.inputForQC().type('Color') //color
+                approve.approveButton().click()
                 .then(()=>{
-                    approve.checkboxForApproveReturnRequest().eq(1).uncheck({force:true})               
-                    approve.areaCheckedFalse().should('exist')
+                    approve.checkboxForApproveReturnRequest().check({ force: true })                   
+                    approve.areaCheckedTrue().should('exist')
                     cy.wait(1000)
-                    approve.shippingPartnerList().eq(0).then(($el) => {  //select the Logistic partners 
-                        shippingrateWithoutQC= parseFloat($el.siblings('h4').text())         
-                        cy.log('Without QC charges',shippingrateWithoutQC)      
-                        cy.log('With QC charges',shippingrateWithQC) 
-                        cy.wait(1000)
-                       expect(shippingrateWithQC).to.eq(shippingrateWithoutQC + 15)                       
-                     
-                    })
-                    
-                     approve.approveButton().click()
-                     cy.wait(1000)
+                    approve.approveButton().click()
+                    cy.wait(1000)
+
                 })
-               
-                filters.getInputBoxForSearchFilter().type(this.data.newRequestsOrderID)
+                // approve.checkboxForApproveReturnRequest().check({ force: true })                   
+                // approve.areaCheckedTrue().should('exist')
+                // cy.wait(1000)
+                // approve.approveButton().click()
+                // cy.wait(1000)
+                filters.getInputBoxForSearchFilter().type(this.data.TrackOrderID)
                 cy.wait(1000)
                 filters.getSearchSVG().click()    
                 cy.wait(1000)
@@ -151,7 +165,7 @@ it('ReturnRequests_05_05',function(){
                     $el.click();
                 }
             })
-            filters.getInputBoxForSearchFilter().type(this.data.newRequestsOrderID) ///to enter values in search input box 
+            filters.getInputBoxForSearchFilter().type(this.data.TrackOrderID) ///to enter values in search input box 
     filters.getSearchSVG().click()    
     filters.searchResultCard().then((cardforresults)=>{   
         cy.log("The length present",cardforresults.find('p').length) //verify the results are present 
@@ -163,7 +177,8 @@ it('ReturnRequests_05_05',function(){
                   if (length === 1) {
                       filters.OrderIDFromtheOrderdetailsLineItem().then(($el)=>{
                          OrderIDForReturn=$el.text()
-                          if(OrderIDForReturn.includes(this.data.newRequestsOrderID)){
+                         cy.log(OrderIDForReturn)
+                          if(OrderIDForReturn.includes(this.data.TrackOrderID)){
                              cy.log('The searched ID is present in the table and AWB is created')
                              
                           approve.returnshippingstatus().should('contain','Created')
@@ -190,7 +205,6 @@ it('ReturnRequests_05_05',function(){
                     $el.find('p').click();
                 }
             }).then(()=>{
-
                 misc.expenseLedger().click();
                 cy.wait(1000)
                 misc.expenseLedgerHover().click()
@@ -226,7 +240,6 @@ it('ReturnRequests_05_05',function(){
          })
             }
      }) 
-
 })
 
 })
