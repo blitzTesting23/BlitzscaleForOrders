@@ -4,7 +4,7 @@ import SidebarAndMisc from "../PageObjects/SidebarAndMisc"
 import WebsiteWebElements from "../PageObjects/website"
 import ApproveRequests from "../PageObjects/ApproveReturnRequests"
 
-describe('ReturnRequest_EE_04', function () {
+describe('ReturnRequest_EE_07', function () {
     let AWB;
    let OrderID;
     beforeEach(function () {
@@ -241,7 +241,7 @@ describe('ReturnRequest_EE_04', function () {
        website.cancelReturnCTA().should('have.text','Cancel Return')
    })   
 //Verify 'View More'&'View less' button is clickable and responsive from the fields ,like "Book return shipment","QC","Auto Settlement"& by clicking on "View QC checklist"opens qc checklist in the new requests tab 
-it('ReturnRequests_05_01', function () {
+it('ReturnRequests_05_04', function () {
     let OrderIDForReturn
     const Nudge = new NudgesAndColumns();
     const filters = new Filters();
@@ -470,6 +470,5 @@ it('ReturnRequests_05_01', function () {
         }
     })
 })
-
-   
+  
 })

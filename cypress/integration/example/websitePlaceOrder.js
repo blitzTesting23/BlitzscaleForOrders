@@ -33,7 +33,7 @@ describe('ReturnRequest_EE_03', function () {
            website.homePage().click().wait(3000);
            website.searchSVG().click()
            website.inputForSearch().type(this.custdata.productID).wait(2000)
-           website.productname().eq(0).click().wait(2000)
+           website.productname().eq(3).click().wait(2000)
            website.buttonForBuyNow().click()
            website.inputFieldFOrAddress().eq(0).clear()
            website.inputFieldFOrAddress().eq(0).type(this.custdata.Customer_Name)

@@ -84,6 +84,9 @@ return cy.get('div.SideNav_sidenav-container__8XqV0 nav.sidenav-bar div.SideNav_
     expenseLedgerHover(){
         return cy.get('h2[class="heading2"]')
     }
+    tabsForReturnRequests(){
+        return cy.get('div[class="NavigateTabGroup_tabgroup-container__SOWwd"] h5')
+    }
     
 
      }

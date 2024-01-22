@@ -103,5 +103,81 @@ triggerForShippingCharge(){
 inputForQC(){
     return cy.get('input[class="rs-input rs-input-md"]')
 }
+qcInfoText(){
+    return cy.get('div[class="QcCheckListModal_modal-wrapper__deLhQ"] p[class="Text_body2__0FftJ Text_headings-colored__kF2dK Text_ml-sm__WjbvN"]')
+}
+
+qcProductPhotos(){
+    return cy.get('button[data-sd-event="returnRequestAccept"]')
+}
+
+qcDetails(){
+    return cy.get('p[class="Text_body2__0FftJ Text_ml-sm__WjbvN"]')
+}
+autoSettlementFields(){
+    return cy.get('div[class="Flexbox_flex-row__aKbHb Flexbox_align-top__Nx4Aj Flexbox_mt-lg__HQln6 rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"] p[class="Text_body2__0FftJ"]')
+}
+autoSettlementFieldTwo(){
+    return cy.get('div[class="Flexbox_flex-row__aKbHb Flexbox_align-top__Nx4Aj Flexbox_mt-lg__HQln6 AcceptReturnModal_items-wrapper__vCGoC rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"] p[class="Text_body2__0FftJ"]')
+}
+
+NoReturnOptionForShipping(){
+    return cy.get('span[class="Label_label-type-secondary__OQZ2g Label_label-state-subtle__xZJ5A"]')
+}
+
+settlementMethod(){
+    return cy.get('p[class="Text_body2__0FftJ Text_subtitles-colored__s5ggG Text_mb-xs__FA03i"]')
+}
+
+settlementStatusForSettlementPending(){
+    return cy.get('span[class="Label_label-type-primary__zRewS Label_label-state-warning__VGGMw"]')
+}
+
+autosettlementForSettlementPending(){
+    return cy.get('div[class="Table_card-cell__MSHm0 Table_padding-horizontal-md__mL+44 Table_padding-vertical-default__KZdfK rs-flex-box-grid-item rs-flex-box-grid-item-0 rs-col rs-col-xl-3 rs-col-lg-3 rs-col-md-4 rs-col-sm-6"]')
+}
+
+refundLink(){
+    return cy.get('div[class="Table_card-cell__MSHm0 Table_padding-horizontal-md__mL+44 Table_padding-vertical-default__KZdfK rs-flex-box-grid-item rs-flex-box-grid-item-0 rs-col rs-col-xl-3 rs-col-lg-3 rs-col-md-4 rs-col-sm-6"] div[class="Flexbox_flex-row__aKbHb Flexbox_mt-md__t3QK2 rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"] a')
+}
+
+sendRefundLink(){
+    return cy.get('div[class="SettlementTable_button-wrapper__q7pRx"] button[data-sd-event="returnRequestSettlementList"]')
+}
+paidOffline(){
+    return cy.get('button[class="Button_button-ghost__rieSu button-loading-undefined custom-button rs-btn rs-btn-ghost rs-btn-md rs-btn-block"]')
+}
+
+forReturnOrReplace(){
+    return cy.get('div[role="group"] button')
+}
+
+rejectionReason(){
+    return cy.get('div[class="Flexbox_flex-row__aKbHb Flexbox_align-middle__-J0b5 Flexbox_mt-sm__1BOrf RejectReturnModal_items__Y1mhR rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"] p')
+}
+
+rejectionRemark(){
+    return cy.get('div[class="Flexbox_flex-column__cNkZ2 rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-start"] p')
+}
+
+requestActionForRejected(){
+    return cy.get('span[class="Label_label-type-primary__zRewS Label_label-state-failure__lE+CF label-style"]')
+}
+
+approvedRequestStatusNA(){
+    return cy.get('span[class="Label_label-type-secondary__OQZ2g Label_label-state-subtle__xZJ5A label-style"]')
+}
+
+shippingStatusinclosedtab(){
+    return cy.get('span[class="Label_label-type-primary__zRewS Label_label-state-failure__lE+CF ShippingDetailsLabel_label-style__XRwqi"]')
+}
+
+rejectionReason(){
+    return cy.get('div[class="refund-state-wrapper"] p')
+}
+
+ongoingTabButtons(){
+    return cy.get('div[class="OngoingTable_column-padding-right__pFsrP"] button')
+}
 }
 export default ApproveRequests;

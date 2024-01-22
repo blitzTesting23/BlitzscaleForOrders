@@ -1,6 +1,6 @@
 
 describe('delivered API', function () {
-    it.skip('ApiTesting ', function () {
+    it.skip('deliveredAPI ', function () {
         const payload = {
             data: {
                 awb: "DUM1PYVEMIPM",
@@ -35,4 +35,10 @@ describe('delivered API', function () {
             cy.log(JSON.stringify(response.body));
         });
     })
+    it('IntransitAPI',function(){
+
+    })
+    
+
+
 })

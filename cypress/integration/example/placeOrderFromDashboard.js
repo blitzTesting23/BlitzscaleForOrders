@@ -132,7 +132,7 @@ describe('Place Order Suite',function(){
             {
               $el.find('span').click();
               cy.wait(2000)
-              placeOrder.amountInputField().type("1000");
+              placeOrder.amountInputField().type("10");
          cy.wait(1000)
          placeOrder.gridSVG().click();
          cy.wait(1000)

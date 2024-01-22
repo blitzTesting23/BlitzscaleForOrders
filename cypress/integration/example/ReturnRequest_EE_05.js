@@ -5,7 +5,7 @@ import WebsiteWebElements from "../PageObjects/website"
 import ApproveRequests from "../PageObjects/ApproveReturnRequests"
 
 
-describe('ReturnRequest_EE_01', function () {
+describe('ReturnRequest_EE_05', function () {
     let AWB;
     let phoneNo;
     beforeEach(function () {
@@ -187,7 +187,7 @@ describe('ReturnRequest_EE_01', function () {
     })
 
     //Verify 'View More'&'View less' button is clickable and responsive from the fields ,like "Book return shipment","QC","Auto Settlement"& by clicking on "View QC checklist"opens qc checklist in the new requests tab 
-    it('ReturnRequests_05_01', function () {
+    it('ReturnRequests_05_04', function () {
         let OrderIDForReturn
         const Nudge = new NudgesAndColumns();
         const filters = new Filters();

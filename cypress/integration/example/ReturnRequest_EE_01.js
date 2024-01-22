@@ -64,13 +64,13 @@ describe('ReturnRequest_EE_01', function () {
                 $el.click();
             }
         })
-        filters.getInputBoxForSearchFilter().type(this.data.newRequestsOrderID)
+        filters.getInputBoxForSearchFilter().type(this.data.TrackOrderID)
         filters.getSearchSVG().click().then(()=>{
         filters.OrderDetailsLineItem().eq(0).then(($el) => {
                        const orderID= $el.find(filters.firstGridCell).text()
                        cy.log(orderID)
                        cy.wait(2000)
-                        if(orderID.includes(this.data.newRequestsOrderID)) {
+                        if(orderID.includes(this.data.TrackOrderID)) {
                             AWB = $el.find(Nudge.awbField).text().split(' ')[1]
                                 phoneNo=$el.find(Nudge.phoneNumberFromOrderID).text()
                                 cy.log("for nested ",AWB)
@@ -144,7 +144,7 @@ describe('ReturnRequest_EE_01', function () {
            website.orderListings().each(($el, index, $list) => {
                cy.wrap($el).children().invoke('attr', 'href').then((references) => {
                    const hyperlink = references.toString();
-                   if (hyperlink.includes(this.data.newRequestsOrderID)) {
+                   if (hyperlink.includes(this.data.TrackOrderID)) {
                        cy.log(hyperlink);
                        eleindex = index
                        cy.log(eleindex)
