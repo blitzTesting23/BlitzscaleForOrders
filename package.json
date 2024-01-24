@@ -14,8 +14,8 @@
   "author": "Nitin DD",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^13.3.2",
-    "neat-csv":"5.1.0"
+    "cypress": "^13.6.3",
+    "neat-csv": "5.1.0"
   },
   "dependencies": {
     "cypress-downloadfile": "^1.2.3"

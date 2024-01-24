@@ -16,7 +16,7 @@ describe('ReturnRequest_EE_02', function () {
         cy.fixture('Customer_details').then(function(custdata){
             this.custdata=custdata
         })
-       
+      
     })
     //Place COD,catalogue Order From dashbaord with Discount amout per quantity
     it('PlaceOrder_01_03',function(){
