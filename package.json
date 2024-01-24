@@ -8,10 +8,10 @@
     "headTest": "node_modules\\.bin\\cypress run --headed",
     "chromeTest": "node_modules\\.bin\\cypress run --browser chrome",
     "recordDashboardTest": "npm run test -- --record --key a9768df2-e571-4269-82c3-31b923f58603 --reporter mochawesome",
-    "one": "npx cypress run --spec cypress\\integration\\example\\NewRequestsFilters.js"
+    "one": "npx cypress run --spec cypress\\integration\\example\\ReturnRequest_EE_11.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Nitin DD",
   "license": "ISC",
   "devDependencies": {
     "cypress": "^13.3.2",

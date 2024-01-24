@@ -234,8 +234,8 @@ describe('New Requests filter check', function () {
                         approve.qcOnReturnText().should('contain','Quality Check on Return')
                         approve.autoSettlementText().should('contain','Auto Settlement')
                        approve.shippingPartnerCheck().eq(1).then((shippingpartner)=>{
-                        if(shippingpartner.find('div[role="gridcell"]').length>0){
-                           cy.log('shipping partners available are ',shippingpartner.find('div[role="gridcell"]').text()) //available Logistic partners 
+                        if(shippingpartner.find(Nudge.gridcell).length>0){
+                           cy.log('shipping partners available are ',shippingpartner.find(Nudge.gridcell).text()) //available Logistic partners 
                         }
                        })
                       approve.shippingPartnerList().each(($el, index, $list) => {  //select the Logistic partners 
@@ -467,25 +467,33 @@ describe('New Requests filter check', function () {
                            cy.log('shipping partners available are ',shippingpartner.find(Nudge.gridcell).text()) //available Logistic partners 
                         }
                        })
-                       approve.shippingPartnerList().eq(0).then(($el) => {  //select the Logistic partners 
-                        shippingrateWithQC= parseFloat($el.siblings('h4').text())   
-                        cy.log('shipping partner with QC ',shippingrateWithQC)
-                        $el.eq(0).click();
+                       approve.shippingPartnerList().each(($el, index, $list) => {  //select the Logistic partners 
+                        const courierpartner = $el.text();
+                        if(courierpartner.includes('Ecom')){
+                            shippingrateWithQC= parseFloat($el.siblings('h4').text())   
+                         cy.log('shipping partner with QC ',shippingrateWithQC)
+                            $el.click();
+                        }
                     })
+
+                   
                     })
                     .then(()=>{
                         approve.checkboxForApproveReturnRequest().eq(1).uncheck({force:true})               
                         approve.areaCheckedFalse().should('exist')
                         cy.wait(1000)
-                        approve.shippingPartnerList().eq(0).then(($el) => {  //select the Logistic partners 
-                            shippingrateWithoutQC= parseFloat($el.siblings('h4').text())         
-                            cy.log('Without QC charges',shippingrateWithoutQC)      
-                            cy.log('With QC charges',shippingrateWithQC) 
-                            cy.wait(1000)
-                           expect(shippingrateWithQC).to.eq(shippingrateWithoutQC + 15)                       
-                         
-                        })
                         
+                        approve.shippingPartnerList().each(($el, index, $list) => {  //select the Logistic partners 
+                            const courierpartner = $el.text();
+                            if(courierpartner.includes('Ecom')){
+                                shippingrateWithoutQC= parseFloat($el.siblings('h4').text())   
+                                cy.log('With QC charges',shippingrateWithQC)
+                                cy.wait(1000) 
+                                expect(shippingrateWithQC).to.eq(shippingrateWithoutQC + 15)
+                                $el.click();
+                                cy.wait(1000) 
+                            }
+                        })                        
                          approve.approveButton().click()
                          cy.wait(1000)
                     })
@@ -525,9 +533,9 @@ describe('New Requests filter check', function () {
                              approve.trackLink().should('have.attr','href')
                              approve.settlementStatus().should('contain','REFUND')
                              approve.autoSettlement().should('contain','Yes')
-                             approve.ongoingTabButtons.eq(0).should('contain','Details')
-                             approve.ongoingTabButtons.eq(1).should('contain','Cancel Return')
-                             approve.ongoingTabButtons.eq(2).should('contain','Cancel Refund')
+                             approve.ongoingTabButtons().eq(0).should('contain','Details')
+                             approve.ongoingTabButtons().eq(1).should('contain','Cancel Return')
+                             approve.ongoingTabButtons().eq(2).should('contain','Cancel Refund')
                               }
                               else{
                                  cy.log('The return is not created according to requirement ')
@@ -684,25 +692,32 @@ describe('New Requests filter check', function () {
                        approve.shippingPartnerCheck().eq(1).then((shippingpartner)=>{
                         if(shippingpartner.find(Nudge.gridcell).length>0){
                            cy.log('shipping partners available are ',shippingpartner.find(Nudge.gridcell).text()) //available Logistic partners 
+                           
                         }
                        })
-                       approve.shippingPartnerList().eq(0).then(($el) => {  //select the Logistic partners 
-                        shippingrateWithQC= parseFloat($el.siblings('h4').text())   
-                        cy.log('shipping partner with QC ',shippingrateWithQC)
-                        $el.eq(0).click();
+                       approve.shippingPartnerList().each(($el, index, $list) => {  //select the Logistic partners 
+                        const courierpartner = $el.text();
+                        if(courierpartner.includes('Ecom')){
+                            shippingrateWithQC= parseFloat($el.siblings('h4').text())   
+                         cy.log('shipping partner with QC ',shippingrateWithQC)
+                            $el.click();
+                        }
                     })
                     })
                     .then(()=>{
                         approve.checkboxForApproveReturnRequest().eq(1).uncheck({force:true})               
                         approve.areaCheckedFalse().should('exist')
                         cy.wait(1000)
-                        approve.shippingPartnerList().eq(0).then(($el) => {  //select the Logistic partners 
-                            shippingrateWithoutQC= parseFloat($el.siblings('h4').text())         
-                            cy.log('Without QC charges',shippingrateWithoutQC)      
-                            cy.log('With QC charges',shippingrateWithQC) 
-                            cy.wait(1000)
-                           expect(shippingrateWithQC).to.eq(shippingrateWithoutQC + 15)                       
-                         
+
+                        approve.shippingPartnerList().each(($el, index, $list) => {  //select the Logistic partners 
+                            const courierpartner = $el.text();
+                            if(courierpartner.includes('Ecom')){
+                                shippingrateWithoutQC= parseFloat($el.siblings('h4').text())   
+                                cy.log('With QC charges',shippingrateWithQC)
+                                cy.wait(1000) 
+                                expect(shippingrateWithQC).to.eq(shippingrateWithoutQC + 15)
+                                $el.click();
+                            }
                         })
                         approve.checkboxForApproveReturnRequest().eq(2).uncheck({force:true})               
                         approve.areaCheckedFalse().should('exist')
@@ -745,8 +760,8 @@ describe('New Requests filter check', function () {
                              approve.trackLink().should('have.attr','href')
                              approve.settlementStatus().should('contain','REFUND')
                              approve.autoSettlement().should('contain','No')
-                             approve.ongoingTabButtons.eq(0).should('contain','Details')
-                             approve.ongoingTabButtons.eq(1).should('contain','Cancel Return')
+                             approve.ongoingTabButtons().eq(0).should('contain','Details')
+                             approve.ongoingTabButtons().eq(1).should('contain','Cancel Return')
                               }
                               else{
                                  cy.log('The return is not created according to requirement ')
@@ -1383,8 +1398,8 @@ describe('New Requests filter check', function () {
                          approve.trackLink().should('have.attr','href')
                          approve.settlementStatus().should('contain','REPLACE')
                          approve.autoSettlement().should('contain','NA')
-                         approve.ongoingTabButtons.eq(0).should('contain','Details')
-                         approve.ongoingTabButtons.eq(1).should('contain','Cancel Return')
+                         approve.ongoingTabButtons().eq(0).should('contain','Details')
+                         approve.ongoingTabButtons().eq(1).should('contain','Cancel Return')
                           }
                           else{
                              cy.log('The return is not created according to requirement ')
@@ -1549,12 +1564,6 @@ it('ReturnRequests_05_10',function(){
                         $el.click();
                     }
                 })
-
-                //    approve.shippingPartnerList().eq(0).then(($el) => {  //select the Logistic partners 
-                //     shippingrateWithQC= parseFloat($el.siblings('h4').text())   
-                //     cy.log('shipping partner with QC ',shippingrateWithQC)
-                //     $el.eq(0).click();
-                // })
                 })
                 .then(()=>{
                     approve.checkboxForApproveReturnRequest().eq(1).uncheck({force:true})               
@@ -1612,8 +1621,8 @@ it('ReturnRequests_05_10',function(){
                              approve.trackLink().should('have.attr','href')
                              approve.settlementStatus().should('contain','REPLACE')
                              approve.autoSettlement().should('contain','NA')
-                             approve.ongoingTabButtons.eq(0).should('contain','Details')
-                             approve.ongoingTabButtons.eq(1).should('contain','Cancel Return')
+                             approve.ongoingTabButtons().eq(0).should('contain','Details')
+                             approve.ongoingTabButtons().eq(1).should('contain','Cancel Return')
                           }
                           else{
                              cy.log('The return is not created according to requirement ')

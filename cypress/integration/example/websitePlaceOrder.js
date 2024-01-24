@@ -17,7 +17,7 @@ describe('ReturnRequest_EE_03', function () {
         const website= new WebsiteWebElements();
       
            cy.visit(Cypress.env('website'))       
-           website.startShoppingBanner().click()       
+          // website.startShoppingBanner().click()       
            website.naviagtionBar().each(($el, index, $list) => {
                const settings = $el.text();
                if (settings.includes('Orders')) {

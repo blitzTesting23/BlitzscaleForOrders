@@ -6,7 +6,7 @@
   "newRequestsOrderID":"NS017C5F094825FF34",
   "OrderIdForPickupFailed":"R_NSW1695208805759",
   "CustomerNumber":"9591568469",
-  "AWB_Number":"DUMSMDYU6UYS",
+  "AWB_Number":"DUMG8JC2INUJ",
   "AWB_NumberForPickupFailed":"DUMW3ZIU89OW",
   "returnStatus_option":"Dispatched",
   "requestSource_option":"Dashboard",
@@ -22,6 +22,7 @@
   "RequestactionForClosedTab":"Approved",
   "rejectionReasonForClosedTab":"Customer raised wrong request",
   "approvedRequestStatusForClosedTab":"Passed",
-  "failedReasonForClosedTab":"Cancelled by Seller"
+  "failedReasonForClosedTab":"Cancelled by Seller",
+  "awbForPreProd":"14228553968256"
 }
 
