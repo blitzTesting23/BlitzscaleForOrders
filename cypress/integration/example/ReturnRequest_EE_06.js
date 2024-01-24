@@ -216,22 +216,20 @@ describe('ReturnRequest_EE_06', function () {
      it('ReturnRequests_10_01', function () {
         const website= new WebsiteWebElements();
        let eleindex ;
-           cy.visit(Cypress.env('website'))
-       
-           website.startShoppingBanner().click()
-       
-           website.naviagtionBar().each(($el, index, $list) => {
-               const settings = $el.text();
-               if (settings.includes('Orders')) {
-                   cy.wrap($el).click();
-               }
+           cy.visit(Cypress.env('website',{failOnStatusCode:false})).then(()=>{
+            website.startShoppingBanner().click()
+           }).then(()=>{
+
+            website.naviagtionBar().each(($el, index, $list) => {
+                const settings = $el.text();
+                if (settings.includes('Orders')) {
+                    cy.wrap($el).click();
+                }
+            })
            })
-       
            website.phoneNoField().type(this.custdata.customerNumber);
-       
            website.confirmPhoneNumberButton().click();
-       
-           website.passwordField().each(($el, index, $list) => {
+          website.passwordField().each(($el, index, $list) => {
                cy.wrap($el).type('0');
            }).wait(1000);
        

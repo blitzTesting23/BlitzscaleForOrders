@@ -219,8 +219,9 @@ describe('ReturnRequest_EE_11', function () {
         const website= new WebsiteWebElements();
        let eleindex ;
            cy.visit(Cypress.env('website'),{failOnStatusCode:false}).then(()=>{
-            wait(3000)
+            cy.wait(3000)
             website.startShoppingBanner().click()
+            cy.wait(1000)
            }).then(()=>{
             website.naviagtionBar().each(($el, index, $list) => {
                 const settings = $el.text();
