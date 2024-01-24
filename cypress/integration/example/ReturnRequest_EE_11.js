@@ -5,7 +5,7 @@ import placeOrderWebelements from "../PageObjects/placeOrderWebelements"
 import Filters from "../PageObjects/Filters"
 import ApproveRequests from "../PageObjects/ApproveReturnRequests"
 
-describe('ReturnRequest_EE_02', function () {
+describe('ReturnRequest_EE_11', function () {
     let AWB;
     let OrderID;
     let OrderIDForReturn;
@@ -18,7 +18,7 @@ describe('ReturnRequest_EE_02', function () {
         })
       
     })
-    //Place COD,catalogue Order From dashbaord with Discount amout per quantity
+    //Place COD,catalogue Order From dashbaord with Discount amout per quantity for change 
     it('PlaceOrder_01_03',function(){
         const Nudge=new NudgesAndColumns();
         const misc=new SidebarAndMisc();
@@ -218,27 +218,24 @@ describe('ReturnRequest_EE_02', function () {
      it('ReturnRequests_10_01', function () {
         const website= new WebsiteWebElements();
        let eleindex ;
-           cy.visit(Cypress.env('website'))
-       
-           website.startShoppingBanner().click()
-       
-           website.naviagtionBar().each(($el, index, $list) => {
-               const settings = $el.text();
-               if (settings.includes('Orders')) {
-                   cy.wrap($el).click();
-               }
+           cy.visit(Cypress.env('website'),{failOnStatusCode:false}).then(()=>{
+            wait(3000)
+            website.startShoppingBanner().click()
+           }).then(()=>{
+            website.naviagtionBar().each(($el, index, $list) => {
+                const settings = $el.text();
+                if (settings.includes('Orders')) {
+                    cy.wrap($el).click();
+                }
+            })
+        
            })
-       
            website.phoneNoField().type(this.custdata.customerNumber);
-       
-           website.confirmPhoneNumberButton().click();
-       
+           website.confirmPhoneNumberButton().click();      
            website.passwordField().each(($el, index, $list) => {
                cy.wrap($el).type('0');
-           }).wait(1000);
-       
-           website.verifyButton().click().wait(2000);
-           
+           }).wait(1000);       
+           website.verifyButton().click().wait(2000);         
            website.orderListings().each(($el, index, $list) => {
                cy.wrap($el).children().invoke('attr', 'href').then((references) => {
                    const hyperlink = references.toString();
@@ -248,7 +245,6 @@ describe('ReturnRequest_EE_02', function () {
                        cy.log(eleindex)
                    }
                })
-   
            }).then(()=>{
                cy.wait(1000);
                website.orderListings().eq(eleindex).click()

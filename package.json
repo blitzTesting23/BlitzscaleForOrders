@@ -2,8 +2,7 @@
   "name": "automation",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
+  "main": "index.js", 
     "test": "node_modules\\.bin\\cypress run",
     "headTest": "node_modules\\.bin\\cypress run --headed",
     "chromeTest": "node_modules\\.bin\\cypress run --browser chrome",
