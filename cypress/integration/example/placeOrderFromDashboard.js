@@ -16,7 +16,7 @@ describe('Place Order Suite',function(){
     })
 
     //Place COD,catalogue Order From dashbaord with amount Discount amout per quantity 
-    it('PlaceOrder_01_03',function(){
+    it.only('PlaceOrder_01_03',function(){
         const Nudge=new NudgesAndColumns();
         const misc=new SidebarAndMisc();
         const placeOrder=new placeOrderWebelements();

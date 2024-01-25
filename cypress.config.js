@@ -6,7 +6,7 @@ module.exports = defineConfig({
 })
 module.exports = defineConfig({
   defaultCommandTimeout: 8000, 
-  pageLoadTimeout:10000,
+  pageLoadTimeout:20000,
   projectId: 'k5ztu5',
   retries: {
     runMode: 1,

@@ -19,10 +19,9 @@ describe('ReturnRequest_EE_04', function () {
       //Place Order From the website and store the order ID 
       it('WebsiteOrder01', function () {
         const website= new WebsiteWebElements();   
-           cy.visit(Cypress.env('website',{failOnStatusCode:false}))   
-           cy.wait(2000)    
-           website.startShoppingBanner().click()    
-           cy.wait(2000)   
+           cy.visit(Cypress.env('website',{failOnStatusCode: false}))   
+           cy.get(website.startShoppingBanner()).click() 
+          // website.startShoppingBanner().click()       
            website.naviagtionBar().each(($el, index, $list) => {
                const settings = $el.text();
                if (settings.includes('Orders')) {

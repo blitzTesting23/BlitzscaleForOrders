@@ -1,6 +1,6 @@
 
 import WebsiteWebElements from "../PageObjects/website"
-describe('ReturnRequest_EE_03', function () {
+describe('WebsitePlaceOrder', function () {
     let AWB;
     let OrderID;
     beforeEach(function () {
