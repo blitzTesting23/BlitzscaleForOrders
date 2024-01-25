@@ -1,6 +1,6 @@
 
 describe('Status Change APIs', function () {
-const awbForPreProd="14228553968256"
+const awbForPreProd="14217112973375"
 const timestampForNDRonPreProd="2024-01-22T08:40:14Z"
 const awbForStage="DUMG8JC2INUJ"
 const timeStampForNDRonStage="2024-01-20T22:00:00.000Z"
@@ -629,7 +629,7 @@ cy.request({
     })
 
     //API to mark an order as RTO Delivered on pre Prod 
-    it('rtoDelivered',function(){
+    it.only('rtoDelivered',function(){
         const rtoDeliveredForPreProd={
             "awb": awbForPreProd,
             "additional": {

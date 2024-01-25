@@ -15,15 +15,17 @@ describe('WebsitePlaceOrder', function () {
      //Place Order From the website and store the order ID 
      it('WebsiteOrder01', function () {
         const website= new WebsiteWebElements();
-      
-           cy.visit(Cypress.env('website'))       
-          // website.startShoppingBanner().click()       
-           website.naviagtionBar().each(($el, index, $list) => {
-               const settings = $el.text();
-               if (settings.includes('Orders')) {
-                   cy.wrap($el).click({force:true});
-               }
-           })     
+           cy.visit(Cypress.env('website'),{failOnStatusCode:false}).then(()=>{
+            cy.wait(1000)
+            website.startShoppingBanner().click() 
+           }).then(()=>{
+            website.naviagtionBar().each(($el, index, $list) => {
+                const settings = $el.text();
+                if (settings.includes('Orders')) {
+                    cy.wrap($el).click({force:true});
+                }
+            })
+           })        
            website.phoneNoField().type(this.custdata.customerNumber);   
            website.confirmPhoneNumberButton().click();   
            website.passwordField().each(($el, index, $list) => {
@@ -33,7 +35,7 @@ describe('WebsitePlaceOrder', function () {
            website.homePage().click().wait(3000);
            website.searchSVG().click()
            website.inputForSearch().type(this.custdata.productID).wait(2000)
-           website.productname().eq(3).click().wait(2000)
+           website.productname().eq(1).click().wait(2000)
            website.buttonForBuyNow().click()
            website.inputFieldFOrAddress().eq(0).clear()
            website.inputFieldFOrAddress().eq(0).type(this.custdata.Customer_Name)
@@ -56,7 +58,7 @@ describe('WebsitePlaceOrder', function () {
                 cy.wait(2000);
             }})
            website.proceedButton().click().wait(2000)
-           website.payCODOption().eq(1).click().wait(1000)
+           website.payCODOption().eq(0).click().wait(1000)
            website.placeOrder().click().wait(1000)    
            website.notNowOption().click().wait(1000)
            website.orderSuccessPage().should('contain','Thank You')
