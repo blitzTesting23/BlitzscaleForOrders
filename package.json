@@ -8,7 +8,14 @@
     "headTest": "node_modules\\.bin\\cypress run --headed",
     "chromeTest": "node_modules\\.bin\\cypress run --browser chrome",
     "recordDashboardTest": "npm run one -- --record --key a9768df2-e571-4269-82c3-31b923f58603 --reporter mochawesome",
-    "one": "npx cypress run --spec cypress\\integration\\example\\ReturnRequest_EE_11.js  --browser chrome"
+    "one": "cypress run --browser chrome --spec cypress\\integration\\example\\ReturnRequest_EE_11.js",
+    "two": "cypress run --browser chrome --spec cypress\\integration\\example\\ReturnRequest_EE_5.js",
+    "three": "cypress run --browser chrome --spec cypress\\integration\\example\\ReturnRequest_EE_9.js",
+    "four": "cypress run --browser chrome --spec cypress\\integration\\example\\ReturnRequest_EE_8.js",
+    "five": "cypress run --browser chrome --spec cypress\\integration\\example\\ReturnRequest_EE_7.js",
+    "six": "cypress run --browser chrome --spec cypress\\integration\\example\\ReturnRequest_EE_6.js",
+    "SanitySuite": "npm run one && npm run two && npm run three && npm run four && npm run five && npm run six"
+    
   },
   "keywords": [],
   "author": "Nitin DD",
