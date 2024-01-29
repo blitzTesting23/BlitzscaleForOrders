@@ -2,6 +2,7 @@ import NudgesAndColumns from "../PageObjects/NudgesAndColumns"
 import Filters from "../PageObjects/Filters"
 import ApproveRequests from "../PageObjects/ApproveReturnRequests"
 import SidebarAndMisc from "../PageObjects/SidebarAndMisc"
+import WebsiteWebElements from "../PageObjects/website"
 
 describe('New Requests filter check', function () {
     
@@ -9,224 +10,73 @@ describe('New Requests filter check', function () {
         cy.fixture('example').then(function (data) {
             this.data = data
         })
+        cy.fixture('Customer_details').then(function(custdata){
+            this.custdata=custdata
+        })
+
     })
 
-//Verify The return request is approved with options Book Return Shipment=True,QC on return=false,Auto Settlement=true and shipping partners present in the new requests tab 
-it('ReturnRequests_05_05',function(){
-    let OrderIDForReturn
-    const Nudge=new NudgesAndColumns();
-    const filters=new Filters();
-    const approve=new ApproveRequests();
-    const misc=new SidebarAndMisc();
-    cy.visit(Cypress.env('url'))
-    misc.enterPhoneNumberAndOTP().type(this.data.PhoneNo)
-    misc.submit().click()
-    cy.wait(2000);
-    misc.enterPhoneNumberAndOTP().type(this.data.Password);
-    misc.submit().click();
-    cy.wait(2000)
-    Nudge.getBody().then((main)=>{   
+ //Place Order From the website and store the order ID 
+ it('WebsiteOrder01', function () {
+    const website= new WebsiteWebElements();
+       cy.visit(Cypress.env('website')).then(()=>{
+        website.getBodyforWebsite().then((main)=>{   
+            cy.wait(2000);
+            cy.log("dialogue box ",main.find('button[class="css-1jt1w2w"]').length)
+              if(main.find('button[class="css-1jt1w2w"]').length>0){
+                website.startShoppingBanner().click()  
+                cy.wait(2000);
+            }})
+       })                 
+       website.naviagtionBar().each(($el, index, $list) => {
+           const settings = $el.text();
+           if (settings.includes('Orders')) {
+               cy.wrap($el).click();
+           }
+       })     
+       website.phoneNoField().type(this.custdata.customerNumber);   
+       website.confirmPhoneNumberButton().click();   
+       website.passwordField().each(($el, index, $list) => {
+           cy.wrap($el).type('0');
+       }).wait(1000);      
+       website.verifyButton().click().wait(2000);   
+       website.homePage().click().wait(3000);
+       website.searchSVG().click()
+       website.inputForSearch().type(this.custdata.productID).wait(2000)
+       website.productname().eq(0).click().wait(2000)
+       website.buttonForBuyNow().click()
+       website.inputFieldFOrAddress().eq(0).clear()
+       website.inputFieldFOrAddress().eq(0).type(this.custdata.Customer_Name)
+       website.inputFieldFOrAddress().eq(1).clear()
+       website.inputFieldFOrAddress().eq(1).type(this.custdata.Pincode)
+       website.inputFieldFOrAddress().eq(2).clear()
+       website.inputFieldFOrAddress().eq(2).type(this.custdata.House_NUmber)
+       website.inputFieldFOrAddress().eq(3).clear()
+       website.inputFieldFOrAddress().eq(3).type(this.custdata.Street)
+       website.inputFieldFOrAddress().eq(4).clear()
+       website.inputFieldFOrAddress().eq(4).type(this.custdata.Landmark)
+       website.inputFieldFOrAddress().eq(5).clear()
+       website.inputFieldFOrAddress().eq(5).type(this.custdata.Alternative_Number).wait(1000)
+       website.saveAndContinueButton().click().wait(1000) 
+       website.getBodyforWebsite().then((main)=>{   
         cy.wait(2000);
-        cy.log("dialogue box ",main.find(Nudge.dialogue).length)
-          if(main.find(Nudge.dialogue).length>0){
-            Nudge.nudgeClick().click();   
+        cy.log("dialogue box ",main.find(website.dialogueForWebsite).length)
+          if(main.find(website.dialogueForWebsite).length>0){
+            website.wantToOrderMore().click();   
             cy.wait(2000);
         }})
-    misc.sidebarwidgets().trigger('mouseover');
-    cy.wait(1000)
-   misc.sidebarMenuItems().each(($el, index, $list) => {
-        const settings = $el.find('p').text();
+       website.proceedButton().click().wait(2000)
+       website.payCODOption().eq(0).click().wait(1000)
+       website.placeOrder().click().wait(1000)    
+     //  website.notNowOption().click().wait(1000)          
+       website.orderItem().then(($id)=>{
+        cy.wrap($id).invoke('attr','href').then((references) => {
+            OrderID= references.split('/').pop();
+           cy.log(OrderID)    
+        })
+       })
+       website.orderSuccessPage().should('contain','Thank You')
+   }) 
 
-        if (settings.includes('Orders')) {
-            $el.find('p').click();
-        }
-    })
-    misc.returnRequests().click();
-    cy.wait(1000)
-    //to handle the nudges 
-    Nudge.getBody().then((main)=>{   
-        cy.wait(2000);
-        cy.log("nitin ",main.find(Nudge.floater).length)
-          if(main.find(Nudge.floater).length>0){
-            Nudge.getNudges().click()
-            cy.wait(1000)
-            Nudge.getNudges().click()
-            cy.wait(1000)
-            Nudge.getNudges().click()
-            cy.wait(1000)
-            Nudge.getNudges().click()
-            cy.wait(1000)
-        }})
-
-        Nudge.getinfobutton().click();
-        cy.wait(1000)
-        Nudge.getinfobutton().click();
-        cy.wait(1000)
-        filters.getSearchFilterDropDown().click()
-    filters.getFilterOptionsfromtheDropdown().each(($el, index, $list) => {
-        const searchBox = $el.find('p').text();
-        if (searchBox.includes('ID')) {
-            $el.click();
-        }
-    })
-    filters.getInputBoxForSearchFilter().type(this.data.newRequestsOrderID)   //this.data.newRequestsOrderID
-    filters.getSearchSVG().click()    
-   var  shippingrateWithQC;
-   var shippingrateWithoutQC ;
-    filters.searchResultCard().then((cardforresults)=>{   
-       cy.log("The length present",cardforresults.find('p').length)
-         if(cardforresults.find('p').length>0)
-         {
-             filters.OrderDetailsLineItem().then(($value) => {
-                 length = $value.length
-
-                 if (length === 1) {
-                     filters.OrderIDFromtheOrderdetailsLineItem().then(($el)=>{
-                          OrderIDForReturn=$el.text()
-                         cy.log(OrderIDForReturn)
-                         if(OrderIDForReturn.includes(this.data.newRequestsOrderID)){     //this.data.newRequestsOrderID
-                            cy.log('The searched ID is present in the table')
-                         }
-                     })
-                 }
-                 else
-                     if (length > 1) {
-                         filters.OrderIDFromtheOrderdetailsLineItem().each(($el, index, $list) => {
-                             const OrderIDs = $el.text();
-                             cy.log('Multiple requests are present with the same Order ID ')
-                         })
-                     }
-                     filters.buttonListfromtheOrderLineItem().each(($el, index, $list) => {
-                        const approvebutton = $el.text();
-                        if(approvebutton.includes('Approve')){
-                            $el.click()
-                            cy.wait(1000)
-                        }
-                    })
-
-                    approve.header().should('have.text','Approve Return Request')
-                    approve.bookreturnshipmenttext().should('contain','Book Return Shipment')
-                    approve.qcOnReturnText().should('contain','Quality Check on Return')
-                    approve.autoSettlementText().should('contain','Auto Settlement')
-                   approve.shippingPartnerCheck().eq(1).then((shippingpartner)=>{
-                    if(shippingpartner.find(Nudge.gridcell).length>0){
-                       cy.log('shipping partners available are ',shippingpartner.find(Nudge.gridcell).text()) //available Logistic partners 
-                    }
-                   })
-                   approve.shippingPartnerList().eq(0).then(($el) => {  //select the Logistic partners 
-                    shippingrateWithQC= parseFloat($el.siblings('h4').text())   
-                    cy.log('shipping partner with QC ',shippingrateWithQC)
-                    $el.eq(0).click();
-                })
-                })
-                .then(()=>{
-                    approve.checkboxForApproveReturnRequest().eq(1).uncheck({force:true})               
-                    approve.areaCheckedFalse().should('exist')
-                    cy.wait(1000)
-                    approve.shippingPartnerList().eq(0).then(($el) => {  //select the Logistic partners 
-                        shippingrateWithoutQC= parseFloat($el.siblings('h4').text())         
-                        cy.log('Without QC charges',shippingrateWithoutQC)      
-                        cy.log('With QC charges',shippingrateWithQC) 
-                        cy.wait(1000)
-                       expect(shippingrateWithQC).to.eq(shippingrateWithoutQC + 15)                       
-                     
-                    })
-                    
-                     approve.approveButton().click()
-                     cy.wait(1000)
-                })
-               
-                filters.getInputBoxForSearchFilter().type(this.data.newRequestsOrderID)
-                cy.wait(1000)
-                filters.getSearchSVG().click()    
-                cy.wait(1000)
-                filters.resultcardwithNoItems().should('not.exist')
-                cy.log('The order has moved from new requests tab') 
-                cy.wait(1000)     
-                misc.ongoingTabField().click()      //click on the ongoing tab      
-                filters.getSearchFilterDropDown().click()
-            filters.getFilterOptionsfromtheDropdown().each(($el, index, $list) => {
-                const searchBox = $el.find('p').text();
-                if (searchBox.includes('ID')) {
-                    $el.click();
-                }
-            })
-            filters.getInputBoxForSearchFilter().type(this.data.newRequestsOrderID) ///to enter values in search input box 
-    filters.getSearchSVG().click()    
-    filters.searchResultCard().then((cardforresults)=>{   
-        cy.log("The length present",cardforresults.find('p').length) //verify the results are present 
-          if(cardforresults.find('p').length>0)
-          {
-              filters.OrderDetailsLineItem().then(($value) => {
-                  length = $value.length
-
-                  if (length === 1) {
-                      filters.OrderIDFromtheOrderdetailsLineItem().then(($el)=>{
-                         OrderIDForReturn=$el.text()
-                          if(OrderIDForReturn.includes(this.data.newRequestsOrderID)){
-                             cy.log('The searched ID is present in the table and AWB is created')
-                             
-                          approve.returnshippingstatus().should('contain','Created')
-                         approve.awbforOnfgoingTab().should('contain','AWB')
-                         approve.trackLink().should('have.attr','href')
-                         approve.settlementStatus().should('contain','REFUND')
-                         approve.autoSettlement().should('contain','Yes')
-                          }
-                          else{
-                             cy.log('The return is not created according to requirement ')
-                          }
-                          
-                      })
-                  }  
-                 })        
-          }
-        }).then(()=>{
-            misc.sidebarwidgets().trigger('mouseover');
-            cy.wait(1000)
-           misc.sidebarMenuItems().each(($el, index, $list) => {
-                const settings = $el.find('p').text();
-    
-                if (settings.includes('Finance')) {
-                    $el.find('p').click();
-                }
-            }).then(()=>{
-
-                misc.expenseLedger().click();
-                cy.wait(1000)
-                misc.expenseLedgerHover().click()
-                cy.wait(1000)
-                filters.getSearchFilterDropDown().click()    
-                cy.wait(1000)  
-                    filters.getSearchFilterDropDown().each(($el, index, $list) => {
-                        const searchBox = $el.find('p').text();
-                        if (searchBox.includes('Action')) {
-                            $el.click();
-                        }
-                    })
-                    cy.log('the order in expense ledger ',OrderIDForReturn)
-                    filters.getInputBoxForSearchFilter().type(OrderIDForReturn)
-                    filters.getSearchSVG().click()
-                    cy.wait(1000)
-                    approve.returnOrderRefundOrderID().should('contain',OrderIDForReturn) //return Order Refund Order ID assertion
-                    approve.shippingChargeOrderID().should('contain',OrderIDForReturn)    //shipping charge Order ID assertion
-                    approve.spendTypeForReturnOrderRefund().should('contain','Return Order Refund')  //spendType assertion for return order refund 
-                    approve.spendTypeForShippingcharge().should('contain','Shipping Charge')  //spendtype assertion for shipping charge 
-                    approve.amountForReturnOrderRefund().should('contain','-')  //amount assertion for return order refund 
-                    approve.amountForShippingCharge().should('contain','-')     //amount assertion for shipping charge 
-                    approve.triggerForOrderRefund().should('contain','Return')  //trigger state for return order refund 
-                    approve.triggerForShippingCharge().should('contain','Return') //trigger state for return shipping charge 
-            })
-        })     
-         }
-         else{
-            misc.noresultFound().then(($el)=>{
-             const NoorderFOund=$el.text()
-             cy.log(NoorderFOund)
-             cy.log('No results Were forund for this order ID ')
-         })
-            }
-     }) 
-
-})
 
 })

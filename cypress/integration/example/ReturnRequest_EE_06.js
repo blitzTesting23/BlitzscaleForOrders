@@ -216,7 +216,7 @@ describe('ReturnRequest_EE_06', function () {
      it('ReturnRequests_10_01', function () {
         const website= new WebsiteWebElements();
        let eleindex ;
-           cy.visit(Cypress.env('website',{failOnStatusCode:false})).then(()=>{
+           cy.visit(Cypress.env('website')).then(()=>{
             website.startShoppingBanner().click()
            }).then(()=>{
 

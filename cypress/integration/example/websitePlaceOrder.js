@@ -17,15 +17,22 @@ describe('WebsitePlaceOrder', function () {
         const website= new WebsiteWebElements();
            cy.visit(Cypress.env('website'),{failOnStatusCode:false}).then(()=>{
             cy.wait(1000)
-            website.startShoppingBanner().click() 
+            website.getBodyforWebsite().then((main)=>{   
+                cy.wait(2000);
+                cy.log("dialogue box ",main.find('button[class="css-1jt1w2w"]').length)
+                  if(main.find('button[class="css-1jt1w2w"]').length>0){
+                    website.startShoppingBanner().click()  
+                    cy.wait(2000);
+                }})
            }).then(()=>{
             website.naviagtionBar().each(($el, index, $list) => {
                 const settings = $el.text();
                 if (settings.includes('Orders')) {
-                    cy.wrap($el).click({force:true});
+                    $el.click();
                 }
             })
-           })        
+           }) 
+           cy.wait(2000);       
            website.phoneNoField().type(this.custdata.customerNumber);   
            website.confirmPhoneNumberButton().click();   
            website.passwordField().each(($el, index, $list) => {
