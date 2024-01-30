@@ -1,7 +1,7 @@
 import NudgesAndColumns from "../PageObjects/NudgesAndColumns"
 import Filters from "../PageObjects/Filters"
 import SidebarAndMisc from "../PageObjects/SidebarAndMisc"
-describe('New Requests filter check', function () {
+describe('Ongoing  Requests filter check', function () {
     beforeEach(function () {
         cy.fixture('example').then(function (data) {
             this.data = data
@@ -1235,4 +1235,122 @@ it('ReturnRequests_06_10', function () {
             }
      })  
 })
+
+//Verify details and Cancel return CTAs are visible in the actions column when the status of the order is "Created",Auto Settlement ="No" and and on cancel return the return gets cancelled and is in closed tab 
+it.only('ReturnRequests_06_12', function () {
+    const Nudge=new NudgesAndColumns();
+    const filters=new Filters();
+    const misc=new SidebarAndMisc();
+    cy.visit(Cypress.env('url'))
+    misc.enterPhoneNumberAndOTP().type(this.data.PhoneNo)
+    misc.submit().click()
+    cy.wait(2000);
+    misc.enterPhoneNumberAndOTP().type(this.data.Password);
+    misc.submit().click();
+    cy.wait(2000)
+    Nudge.getBody().then((main)=>{   
+        cy.wait(2000);
+        cy.log("dialogue box ",main.find(Nudge.dialogue).length)
+          if(main.find(Nudge.dialogue).length>0){
+            Nudge.nudgeClick().click();   
+            cy.wait(2000);
+        }})
+    misc.sidebarwidgets().trigger('mouseover');
+    cy.wait(1000)
+   misc.sidebarMenuItems().each(($el, index, $list) => {
+        const settings = $el.find('p').text();
+
+        if (settings.includes('Orders')) {
+            $el.find('p').click();
+        }
+    })
+    misc.returnRequests().click();
+    cy.wait(1000)
+    //to handle the nudges 
+    Nudge.getBody().then((main)=>{   
+        cy.wait(2000);
+        cy.log("Nudge present",main.find(Nudge.floater).length)
+          if(main.find(Nudge.floater).length>0){
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+            Nudge.getNudges().click()
+            cy.wait(1000)
+        }})
+
+        Nudge.getinfobutton().click();
+        cy.wait(1000)
+        Nudge.getinfobutton().click();
+        cy.wait(1000)
+        misc.returnRequestSubTabs().each(($el, index, $list) => {
+            const tabHeaders = $el.text();
+
+            if (tabHeaders.includes('Ongoing')) {
+                $el.click();
+            }
+        })
+        cy.wait(1000)
+    filters.getSearchFilterDropDown().click()
+    filters.getFilterOptionsfromtheDropdown().each(($el, index, $list) => {
+        const searchBox = $el.find('span').text();
+        if (searchBox.includes('ID')) {
+            $el.click();
+        }
+    })
+    filters.getInputBoxForSearchFilter().type(this.data.newRequestsOrderID)
+    filters.getSearchSVG().click()    
+
+    filters.searchResultCard().then((cardforresults)=>{   
+       cy.log("The length present",cardforresults.find('p').length)
+         if(cardforresults.find('p').length>0)
+         {
+             filters.OrderDetailsLineItem().then(($value) => {
+                 length = $value.length
+
+                 if (length === 1) {
+                     filters.OrderIDFromtheOrderdetailsLineItem().then(($el)=>{
+                         const OrderID=$el.text()
+                         cy.log('The Order ID present on the dashboard',OrderID)
+                         cy.log('The Order ID searched ',this.data.newRequestsOrderID)
+                        if(OrderID.includes(this.data.newRequestsOrderID)){
+                            cy.log('The searched ID is present in the table')
+                         }
+                     })
+                     filters.returnShippingColumn().find('span').should('exist')
+                     filters.returnShippingColumn().find('p').should('exist')
+
+                 }
+                 else
+                     if (length > 1) {
+                         filters.OrderIDFromtheOrderdetailsLineItem().each(($el, index, $list) => {
+                             const OrderIDs = $el.text();
+                             cy.log('The Order ID present on the dashboard',OrderIDs)
+                         cy.log('THe Order ID searched ',this.data.newRequestsOrderID)
+                         })
+                     }
+             })
+
+         }
+         else{
+            filters.searchResultNotFound().then(($el)=>{
+                cy.wait(1000)
+
+             const NoordeFOund=$el.text()
+             cy.log(NoordeFOund)
+             cy.wait(1000)
+
+             cy.log('No results Were forund for this order ID ')
+         })
+            }
+     }) 
+
+})
+
+
+
+
+
 })

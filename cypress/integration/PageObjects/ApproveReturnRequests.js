@@ -179,5 +179,17 @@ rejectionReason(){
 ongoingTabButtons(){
     return cy.get('div[class="OngoingTable_column-padding-right__pFsrP"] button')
 }
+requestActionApproved(){
+    return cy.get('span[class="Label_label-type-primary__zRewS Label_label-state-success__ioqGl label-style"]')
+}
+
+failedApprovedRequestStatus(){
+    return cy.get('span[class="Label_label-type-secondary__OQZ2g Label_label-state-failure__lE+CF label-style"]')
+}
+
+detailsButtonFoeClosedTab(){
+    return cy.get('button[data-sd-event="returnRequestClosedList"]')
+}
+
 }
 export default ApproveRequests;

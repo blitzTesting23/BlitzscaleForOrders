@@ -1,7 +1,7 @@
 import NudgesAndColumns from "../PageObjects/NudgesAndColumns"
 import Filters from "../PageObjects/Filters"
 import SidebarAndMisc from "../PageObjects/SidebarAndMisc"
-describe('New Requests filter check', function () {
+describe('Closed tab filter check', function () {
     beforeEach(function () {
         cy.fixture('example').then(function (data) {
             this.data = data

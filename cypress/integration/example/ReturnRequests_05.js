@@ -2004,13 +2004,11 @@ it('ReturnRequests_05_12',function(){
           {
               filters.OrderDetailsLineItem().then(($value) => {
                   length = $value.length
-
                   if (length === 1) {
                       filters.OrderIDFromtheOrderdetailsLineItem().then(($el)=>{
                         const OrderID=$el.text()
                           if(OrderID.includes(this.data.newRequestsOrderID)){
-                             cy.log('The searched ID is present in the table and AWB is created')
-                             
+                             cy.log('The searched ID is present in the table and AWB is created')              
                           approve.requestActionForRejected().should('contain','Rejected')
                          approve.approvedRequestStatusNA().should('contain','NA')
                          approve.shippingStatusinclosedtab().should('contain','Cancelled')

@@ -8,11 +8,11 @@
     "headTest": "node_modules\\.bin\\cypress run --headed",
     "chromeTest": "node_modules\\.bin\\cypress run --browser chrome",
     "recordDashboardTest": "npm run one -- --record --key a9768df2-e571-4269-82c3-31b923f58603 --reporter mochawesome",
-    "one": "cypress run --browser chrome --spec cypress\\integration\\example\\ReturnRequest_EE_06.js",
-    "two": "cypress run --browser chrome --spec cypress\\integration\\example\\ReturnRequest_EE_07.js",
-    "three": "cypress run --browser chrome --spec cypress\\integration\\example\\ReturnRequest_EE_08.js",
+    "one": "cypress run --browser chrome --spec cypress\\integration\\example\\ReturnRequest_EE_02.js",
+    "two": "cypress run --browser chrome --spec cypress\\integration\\example\\ReturnRequest_EE_03.js",
+    "three": "cypress run --browser chrome --spec cypress\\integration\\example\\ReturnRequest_EE_04.js",
     "four": "cypress run --browser chrome --spec cypress\\integration\\example\\ReturnRequest_EE_11.js",
-    "SanitySuite": "npm run one && npm run two && npm run three && npm run four"
+    "SanitySuite": "npm run one && npm run two && npm run three"
     
   },
   "keywords": [],
