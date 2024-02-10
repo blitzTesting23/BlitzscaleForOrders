@@ -1,6 +1,7 @@
 class WebsiteWebElements{
 
     dialogueForWebsite='div[role="dialog"]'
+    shopBannerForWebsite='button[class="css-1jt1w2w"]'
     
 startShoppingBanner(){
     return cy.get('button[class="css-1jt1w2w"]')

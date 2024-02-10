@@ -16,18 +16,27 @@ describe('ReturnRequest_EE_04', function () {
        
     })
     
-      //Place Order From the website and store the order ID 
-      it('WebsiteOrder01', function () {
-        const website= new WebsiteWebElements();   
-           cy.visit(Cypress.env('website',{failOnStatusCode: false}))   
-           cy.get(website.startShoppingBanner()).click() 
-          // website.startShoppingBanner().click()       
-           website.naviagtionBar().each(($el, index, $list) => {
-               const settings = $el.text();
-               if (settings.includes('Orders')) {
-                   cy.wrap($el).click();
-               }
-           })     
+     //Place Order From the website and store the order ID 
+     it('WebsiteOrder01', function () {
+        const website= new WebsiteWebElements();
+           cy.visit(Cypress.env('website'),{failOnStatusCode:false}).then(()=>{
+            cy.wait(1000)
+            website.getBodyforWebsite().then((main)=>{   
+                cy.wait(2000);
+                cy.log("dialogue box ",main.find('button[class="css-1jt1w2w"]').length)
+                  if(main.find('button[class="css-1jt1w2w"]').length>0){
+                    website.startShoppingBanner().click()  
+                    cy.wait(2000);
+                }})
+           }).then(()=>{
+            website.naviagtionBar().each(($el, index, $list) => {
+                const settings = $el.text();
+                if (settings.includes('Orders')) {
+                    $el.click();
+                }
+            })
+           }) 
+           cy.wait(2000);       
            website.phoneNoField().type(this.custdata.customerNumber);   
            website.confirmPhoneNumberButton().click();   
            website.passwordField().each(($el, index, $list) => {
@@ -62,16 +71,15 @@ describe('ReturnRequest_EE_04', function () {
            website.proceedButton().click().wait(2000)
            website.payCODOption().eq(0).click().wait(1000)
            website.placeOrder().click().wait(1000)    
-         //  website.notNowOption().click().wait(1000)          
+           website.notNowOption().click().wait(1000)
+           website.orderSuccessPage().should('contain','Thank You')
            website.orderItem().then(($id)=>{
             cy.wrap($id).invoke('attr','href').then((references) => {
                 OrderID= references.split('/').pop();
                cy.log(OrderID)    
             })
            })
-           website.orderSuccessPage().should('contain','Thank You')
        }) 
-
 
     it('TrackOrders_01_01', function () {      
         const Nudge=new NudgesAndColumns();

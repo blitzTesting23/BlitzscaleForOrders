@@ -25,8 +25,8 @@ describe('ReturnRequest_EE_08', function () {
             cy.wait(1000)
             website.getBodyforWebsite().then((main)=>{   
                 cy.wait(2000);
-                cy.log("dialogue box ",main.find('button[class="css-1jt1w2w"]').length)
-                  if(main.find('button[class="css-1jt1w2w"]').length>0){
+                cy.log("dialogue box ",main.find(website.shopBannerForWebsite).length)
+                  if(main.find(website.shopBannerForWebsite).length>0){
                     website.startShoppingBanner().click()  
                     cy.wait(2000);
                 }})
@@ -71,7 +71,7 @@ describe('ReturnRequest_EE_08', function () {
                 cy.wait(2000);
             }})
            website.proceedButton().click().wait(2000)
-           website.payCODOption().eq(0).click().wait(1000)
+           website.payCODOption().eq(1).click().wait(1000)
            website.placeOrder().click().wait(1000)    
            website.notNowOption().click().wait(1000)
            website.orderSuccessPage().should('contain','Thank You')
@@ -376,6 +376,8 @@ describe('ReturnRequest_EE_08', function () {
                                 cy.log('With QC charges',shippingrateWithQC)
                                 cy.wait(1000) 
                                 expect(shippingrateWithQC).to.eq(shippingrateWithoutQC + 15)
+                                $el.click();
+                                cy.wait(1000) 
                             }
                         })
                       
@@ -420,8 +422,8 @@ describe('ReturnRequest_EE_08', function () {
                              approve.trackLink().should('have.attr','href')
                              approve.settlementStatus().should('contain','REFUND')
                              approve.autoSettlement().should('contain','No')
-                             approve.ongoingTabButtons.eq(0).should('contain','Details')
-                             approve.ongoingTabButtons.eq(1).should('contain','Cancel Return')
+                             approve.ongoingTabButtons().eq(0).should('contain','Details')
+                             approve.ongoingTabButtons().eq(1).should('contain','Cancel Return')
                               }
                               else{
                                  cy.log('The return is not created according to requirement ')

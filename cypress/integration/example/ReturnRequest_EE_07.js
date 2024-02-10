@@ -24,8 +24,8 @@ describe('ReturnRequest_EE_07', function () {
             cy.wait(1000)
             website.getBodyforWebsite().then((main)=>{   
                 cy.wait(2000);
-                cy.log("dialogue box ",main.find('button[class="css-1jt1w2w"]').length)
-                  if(main.find('button[class="css-1jt1w2w"]').length>0){
+                cy.log("dialogue box ",main.find(website.shopBannerForWebsite).length)
+                  if(main.find(website.shopBannerForWebsite).length>0){
                     website.startShoppingBanner().click()  
                     cy.wait(2000);
                 }})
@@ -70,7 +70,7 @@ describe('ReturnRequest_EE_07', function () {
                 cy.wait(2000);
             }})
            website.proceedButton().click().wait(2000)
-           website.payCODOption().eq(0).click().wait(1000)
+           website.payCODOption().eq(1).click().wait(1000)
            website.placeOrder().click().wait(1000)    
            website.notNowOption().click().wait(1000)
            website.orderSuccessPage().should('contain','Thank You')
